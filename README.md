@@ -1,4 +1,4 @@
-#bootStrap-addTabs3
+#bootStrap-addTabs
 
 - theme/fonts 目录下的文件我就没有上传了，就是使用Bootstrap中的fonts文件
 - 11月增加了折叠TABS的代码，防止打开过多影响页面
