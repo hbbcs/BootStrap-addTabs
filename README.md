@@ -27,3 +27,12 @@ $('#tabs').addtabs();
 
             </div>
 ```
+
+##参数
+options {
+ content string||html 直接指定内容
+ close bool 是否可以关闭
+ monitor 监视的区域
+ iframeHeight 固定TAB中IFRAME高度
+ callback 关闭后回调函数
+}
