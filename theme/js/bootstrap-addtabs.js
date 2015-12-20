@@ -66,7 +66,7 @@ $.fn.addtabs = function (options) {
                         '" frameborder="no" border="0" marginwidth="0" marginheight="0" scrolling-x="no" scrolling-y="auto" allowtransparency="yes"></iframe></div>');
             } else {
                 $.get(opts.url,function(data){
-                    content.append(data);
+                    content.append(data); 
                 });
             }
             //加入TABS
