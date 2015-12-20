@@ -10,7 +10,6 @@
  * content string||html 直接指定内容
  * close bool 是否可以关闭
  * monitor 监视的区域
- * callback 关闭后回调函数
  * }
  * 
  * @returns
@@ -21,6 +20,7 @@ $.fn.addtabs = function (options) {
         content: '', //直接指定所有页面TABS内容
         close: true, //是否可以关闭
         monitor: 'body', //监视的区域
+        iframeUse: true, //使用iframe还是ajax
         iframeHeight: $(document).height() - 105, //固定TAB中IFRAME高度,根据需要自己修改
         callback: function () { //关闭后回调函数
         }
@@ -61,9 +61,11 @@ $.fn.addtabs = function (options) {
             //是否指定TAB内容
             if (opts.content) {
                 content.append(opts.content);
-            } else {//没有内容，使用IFRAME打开链接
-                content.append('<iframe src="' + obj.url + '" width="100%" height="' + options.iframeHeight +
+            } else if (options.iframeUse) {//没有内容，使用IFRAME打开链接
+                content.append('<iframe src="' + opts.url + '" width="100%" height="' + options.iframeHeight +
                         '" frameborder="no" border="0" marginwidth="0" marginheight="0" scrolling-x="no" scrolling-y="auto" allowtransparency="yes"></iframe></div>');
+            } else {
+                content.load(opts.url);
             }
             //加入TABS
             obj.find('.nav-tabs').append(title);
@@ -131,3 +133,4 @@ $.fn.addtabs = function (options) {
         }
     };  
 };
+
