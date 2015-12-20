@@ -60,7 +60,7 @@ $.fn.addtabs = function (options) {
             content = $('<div role="tabpanel" class="tab-pane" id="' + id + '"></div>');
             //是否指定TAB内容
             if (opts.content) {
-                content.append(obj.content);
+                content.append(opts.content);
             } else {//没有内容，使用IFRAME打开链接
                 content.append('<iframe src="' + obj.url + '" width="100%" height="' + options.iframeHeight +
                         '" frameborder="no" border="0" marginwidth="0" marginheight="0" scrolling-x="no" scrolling-y="auto" allowtransparency="yes"></iframe></div>');
@@ -131,4 +131,3 @@ $.fn.addtabs = function (options) {
         }
     };  
 };
-
