@@ -31,7 +31,7 @@ $('#tabs').addtabs();
 ##参数
 -  content string||html 直接指定内容
 -  close bool 是否可以关闭
--  monitor 监视的区域
+-  monitor 监视的区域,默认是body
 -  iframeUse true使用iframe，false使用ajax
 -  iframeHeight 固定TAB中IFRAME高度
 -  callback 关闭后回调函数
