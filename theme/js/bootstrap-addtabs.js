@@ -65,7 +65,9 @@ $.fn.addtabs = function (options) {
                 content.append('<iframe src="' + opts.url + '" width="100%" height="' + options.iframeHeight +
                         '" frameborder="no" border="0" marginwidth="0" marginheight="0" scrolling-x="no" scrolling-y="auto" allowtransparency="yes"></iframe></div>');
             } else {
-                content.load(opts.url);
+                $.get(opts.url,function(data){
+                    content.append(data);
+                });
             }
             //加入TABS
             obj.find('.nav-tabs').append(title);
@@ -133,4 +135,3 @@ $.fn.addtabs = function (options) {
         }
     };  
 };
-
