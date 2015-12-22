@@ -32,6 +32,7 @@ $.fn.addtabs = function (options) {
             title: $(this).attr('title') ? $(this).attr('title') : $(this).html(),
             content: options.content ? options.content : $(this).attr('content'),
             url: $(this).attr('url'),
+            ajax: $(this).attr('ajax') ? true : false
         });
     });
 
@@ -61,7 +62,7 @@ $.fn.addtabs = function (options) {
             //是否指定TAB内容
             if (opts.content) {
                 content.append(opts.content);
-            } else if (options.iframeUse) {//没有内容，使用IFRAME打开链接
+            } else if (options.iframeUse && !opts.ajax) {//没有内容，使用IFRAME打开链接
                 content.append('<iframe src="' + opts.url + '" width="100%" height="' + options.iframeHeight +
                         '" frameborder="no" border="0" marginwidth="0" marginheight="0" scrolling-x="no" scrolling-y="auto" allowtransparency="yes"></iframe></div>');
             } else {
