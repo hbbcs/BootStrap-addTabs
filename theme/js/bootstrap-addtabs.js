@@ -57,7 +57,7 @@ $.fn.addtabs = function (options) {
                 .attr('id', 'tab_' + id)
                 .append(
                 $('<a></a>')
-                    .attr('href', '#')
+                    .attr('href', '#'+id)
                     .attr('aria-controls', id)
                     .attr('role', 'tab')
                     .attr('data-toggle', 'tab')
