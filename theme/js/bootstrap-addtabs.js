@@ -52,37 +52,42 @@ $.fn.addtabs = function (options) {
         //如果TAB不存在，创建一个新的TAB
         if (!$("#" + id)[0]) {
             //创建新TAB的title
-            var title = $('<li></li>')
-                .attr('role', 'presentation')
-                .attr('id', 'tab_' + id)
-                .append(
-                $('<a></a>')
-                    .attr('href', '#'+id)
-                    .attr('aria-controls', id)
-                    .attr('role', 'tab')
-                    .attr('data-toggle', 'tab')
-                    .html(opts.title)
-            );            
+            var title = $('<li>', {
+                'role': 'presentation',
+                'id': 'tab_' + id
+            }).append(
+                $('<a>', {
+                    'href': '#' + id,
+                    'aria-controls': id,
+                    'role': 'tab',
+                    'data-toggle': 'tab'
+                }).html(opts.title)
+            );
+
             //是否允许关闭
             if (options.close) {
                 title.append(' <i class="close-tab glyphicon glyphicon-remove"></i>');
             }
             //创建新TAB的内容
-            var content = $('<div></div>')
-                .addClass('tab-pane')
-                .attr('id', id)
-                .attr('role', 'tabpanel');            
+            var content = $('<div>', {
+                class: 'tab-pane',
+                id: id,
+                role: 'tabpanel'
+            });
+
             //是否指定TAB内容
             if (opts.content) {
                 content.append(opts.content);
             } else if (options.iframeUse && !opts.ajax) {//没有内容，使用IFRAME打开链接
-                var iframe = $('<iframe></iframe>')
-                    .addClass('iframeClass')
-                    .attr('height', options.iframeHeight)
-                    .attr('frameborder', "no")
-                    .attr('border', "0")
-                    .attr('src', opts.url);
-                content.append(iframe);                
+                content.append(
+                    $('<iframe>', {
+                        class: 'iframeClass',
+                        'height': options.iframeHeight,
+                        'frameborder': "no",
+                        'border': "0",
+                        'src': opts.url
+                    })
+                );           
             } else {
                 $.get(opts.url, function (data) {
                     content.append(data);
