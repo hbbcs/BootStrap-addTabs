@@ -1,0 +1,12 @@
+.iframeClass {
+    z-index: 1;
+    visibility: inherit;
+    width: 100%;
+    frameborder: no;
+    border: 0;
+    marginwidth: 0;
+    marginheight: 0;
+    scrolling-x: no;
+    scrolling-y: auto;
+    allowtransparency: true;
+}
