@@ -1,5 +1,6 @@
 #bootStrap-addTabs
 
+- 2016/01/25 修改IFrame支持IE，修改一些BUG，增加iframeClass样式表
 - 12/19 重新编写了代码，增加一些参数及函数
 - theme/fonts 目录下的文件我就没有上传了，就是使用Bootstrap中的fonts文件
 - 11月增加了折叠TABS的代码，防止打开过多影响页面
