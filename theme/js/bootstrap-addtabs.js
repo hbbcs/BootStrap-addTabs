@@ -47,27 +47,45 @@ $.fn.addtabs = function (options) {
     });
 
     _add = function (opts) {
-        id = 'tab_' + opts.id;
+        var id = 'tab_' + opts.id;
         obj.find('.active').removeClass('active');
         //如果TAB不存在，创建一个新的TAB
         if (!$("#" + id)[0]) {
             //创建新TAB的title
-            title = $('<li role="presentation" id="tab_' + id + '"><a href="#' + id + '" aria-controls="' + id + '" role="tab" data-toggle="tab">' + opts.title + '</a></li>');
+            var title = $('<li></li>')
+                .attr('role', 'presentation')
+                .attr('id', 'tab_' + id)
+                .append(
+                $('<a></a>')
+                    .attr('href', '#')
+                    .attr('aria-controls', id)
+                    .attr('role', 'tab')
+                    .attr('data-toggle', 'tab')
+                    .html(opts.title)
+            );            
             //是否允许关闭
             if (options.close) {
                 title.append(' <i class="close-tab glyphicon glyphicon-remove"></i>');
             }
             //创建新TAB的内容
-            content = $('<div role="tabpanel" class="tab-pane" id="' + id + '"></div>');
+            var content = $('<div></div>')
+                .addClass('tab-pane')
+                .attr('id', id)
+                .attr('role', 'tabpanel');            
             //是否指定TAB内容
             if (opts.content) {
                 content.append(opts.content);
             } else if (options.iframeUse && !opts.ajax) {//没有内容，使用IFRAME打开链接
-                content.append('<iframe src="' + opts.url + '" width="100%" height="' + options.iframeHeight +
-                        '" frameborder="no" border="0" marginwidth="0" marginheight="0" scrolling-x="no" scrolling-y="auto" allowtransparency="yes"></iframe></div>');
+                var iframe = $('<iframe></iframe>')
+                    .addClass('iframeClass')
+                    .attr('height', options.iframeHeight)
+                    .attr('frameborder', "no")
+                    .attr('border', "0")
+                    .attr('src', opts.url);
+                content.append(iframe);                
             } else {
-                $.get(opts.url,function(data){
-                    content.append(data); 
+                $.get(opts.url, function (data) {
+                    content.append(data);
                 });
             }
             //加入TABS
