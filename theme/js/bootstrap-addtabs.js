@@ -120,9 +120,21 @@ $.fn.addtabs = function (options) {
     _drop = function () {
         element=obj.find('.nav-tabs');
         //创建下拉标签
-        var dropdown = $('<li class="dropdown pull-right hide tabdrop"><a class="dropdown-toggle" data-toggle="dropdown" href="#">' +
-                '<i class="glyphicon glyphicon-align-justify"></i>' +
-                ' <b class="caret"></b></a><ul class="dropdown-menu"></ul></li>');
+        var dropdown = $('<li>', {
+            class: 'dropdown pull-right hide tabdrop'
+        }).append(
+            $('<a>', {
+                class: 'dropdown-toggle',
+                'data-toggle': 'dropdown',
+                href: '#'
+            }).append(
+                $('<i>', {class: "glyphicon glyphicon-align-justify"})
+            ).append(
+                $('<b>', {class: 'caret'})
+            )
+        ).append(
+            $('<ul>', {class: "dropdown-menu"})
+        );
         //检测是否已增加
         if (!$('.tabdrop').html()) {
             dropdown.prependTo(element);
