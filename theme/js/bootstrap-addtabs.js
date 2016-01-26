@@ -152,7 +152,7 @@ $.fn.addtabs = function (options) {
                 .find('>li')
                 .not('.tabdrop')                
                 .each(function () {
-                    if (this.offsetTop > 0) {
+                    if (this.offsetTop > 0 || element.width() - $(this).position().left - $(this).width() < 53) {
                         dropdown.find('ul').append($(this));
                         collection++;
                     }
