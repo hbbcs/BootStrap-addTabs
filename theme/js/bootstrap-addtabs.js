@@ -1,17 +1,17 @@
 /**
  * Website: http://git.oschina.net/hbbcs/bootStrap-addTabs
- * 
+ *
  * Created by joe on 2015-12-19.
  */
 
 /**
- * 
+ *
  * @param {type} options {
  * content string||html 直接指定内容
  * close bool 是否可以关闭
  * monitor 监视的区域
  * }
- * 
+ *
  * @returns
  */
 $.fn.addtabs = function (options) {
@@ -21,7 +21,7 @@ $.fn.addtabs = function (options) {
         close: true, //是否可以关闭
         monitor: 'body', //监视的区域
         iframeUse: true, //使用iframe还是ajax
-        iframeHeight: $(document).height() - 105, //固定TAB中IFRAME高度,根据需要自己修改
+        iframeHeight: $(document).height() - 107, //固定TAB中IFRAME高度,根据需要自己修改
         callback: function () { //关闭后回调函数
         }
     }, options || {});
@@ -52,6 +52,7 @@ $.fn.addtabs = function (options) {
         //如果TAB不存在，创建一个新的TAB
         if (!$("#" + id)[0]) {
             //创建新TAB的title
+
             var title = $('<li>', {
                 'role': 'presentation',
                 'id': 'tab_' + id
@@ -70,24 +71,24 @@ $.fn.addtabs = function (options) {
             }
             //创建新TAB的内容
             var content = $('<div>', {
-                class: 'tab-pane',
-                id: id,
-                role: 'tabpanel'
+                'class': 'tab-panel',
+                'id': id,
+                'role': 'tabpanel'
             });
 
-            //是否指定TAB内容
+                //是否指定TAB内容
             if (opts.content) {
                 content.append(opts.content);
             } else if (options.iframeUse && !opts.ajax) {//没有内容，使用IFRAME打开链接
                 content.append(
                     $('<iframe>', {
-                        class: 'iframeClass',
+                        'class': 'iframeClass',
                         'height': options.iframeHeight,
                         'frameborder': "no",
                         'border': "0",
                         'src': opts.url
                     })
-                );           
+                );
             } else {
                 $.get(opts.url, function (data) {
                     content.append(data);
@@ -103,7 +104,7 @@ $.fn.addtabs = function (options) {
         $("#" + id).addClass("active");
         _drop();
     };
-    
+
     _close = function (id) {
         //如果关闭的是当前激活的TAB，激活他的前一个TAB
         if (obj.find("li.active").attr('id') == "tab_" + id) {
@@ -118,23 +119,24 @@ $.fn.addtabs = function (options) {
     };
 
     _drop = function () {
-        element=obj.find('.nav-tabs');
+        element = obj.find('.nav-tabs');
         //创建下拉标签
         var dropdown = $('<li>', {
-            class: 'dropdown pull-right hide tabdrop'
+            'class': 'dropdown pull-right hide tabdrop'
         }).append(
             $('<a>', {
-                class: 'dropdown-toggle',
+                'class': 'dropdown-toggle',
                 'data-toggle': 'dropdown',
-                href: '#'
+                'href': '#'
             }).append(
-                $('<i>', {class: "glyphicon glyphicon-align-justify"})
+                $('<i>', {'class': "glyphicon glyphicon-align-justify"})
             ).append(
-                $('<b>', {class: 'caret'})
+                $('<b>', {'class': 'caret'})
             )
         ).append(
-            $('<ul>', {class: "dropdown-menu"})
-        );
+            $('<ul>', {'class': "dropdown-menu"})
+        )
+
         //检测是否已增加
         if (!$('.tabdrop').html()) {
             dropdown.prependTo(element);
@@ -149,14 +151,14 @@ $.fn.addtabs = function (options) {
 
         //检查超过一行的标签页
         element.append(dropdown.find('li'))
-                .find('>li')
-                .not('.tabdrop')                
-                .each(function () {
-                    if (this.offsetTop > 0 || element.width() - $(this).position().left - $(this).width() < 53) {
-                        dropdown.find('ul').append($(this));
-                        collection++;
-                    }
-                });
+            .find('>li')
+            .not('.tabdrop')
+            .each(function () {
+                if (this.offsetTop > 0 || element.width() - $(this).position().left - $(this).width() < 53) {
+                    dropdown.find('ul').append($(this));
+                    collection++;
+                }
+            });
 
         //如果有超出的，显示下拉标签
         if (collection > 0) {
@@ -169,5 +171,5 @@ $.fn.addtabs = function (options) {
         } else {
             dropdown.addClass('hide');
         }
-    };  
+    };
 };
