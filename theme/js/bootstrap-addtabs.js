@@ -71,7 +71,7 @@ $.fn.addtabs = function (options) {
             }
             //创建新TAB的内容
             var content = $('<div>', {
-                'class': 'tab-panel',
+                'class': 'tab-pane',
                 'id': id,
                 'role': 'tabpanel'
             });
