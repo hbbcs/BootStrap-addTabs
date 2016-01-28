@@ -40,6 +40,14 @@ $.fn.addtabs = function (options) {
         id = $(this).prev("a").attr("aria-controls");
         _close(id);
     });
+    
+    obj.on('mouseover','.close-tab',function(){
+        $(this).removeClass('glyphicon-remove').addClass('glyphicon-remove-circle');
+    })
+
+    obj.on('mouseout','.close-tab',function(){
+        $(this).removeClass('glyphicon-remove-circle').addClass('glyphicon-remove');
+    })
 
     $(window).resize(function () {
         obj.find('iframe').attr('height', options.iframeHeight);
