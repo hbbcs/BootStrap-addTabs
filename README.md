@@ -9,51 +9,13 @@
 
 #使用方法
 
+具体请查看[index.html](http://git.oschina.net/hbbcs/bootStrap-addTabs/blob/master/index.html)文件
 ```
 $('#tabs').addtabs({monitor:'.btn-group'});
 ```
-按钮
-```
-<div class="btn-group" role="group" aria-label="...">
-    <button type="button" class="btn btn-default" addtabs="mail" url="/admin/mail" title="我的邮件">
-        <i class="glyphicon glyphicon-envelope"></i>
-        我的邮件
-    </button>
-    <button type="button" class="btn btn-default" addtabs="profile" url="/admin/profile">
-        <i class="glyphicon glyphicon-user"></i>
-        我的属性
-    </button>
-    <button type="button" class="btn btn-default" addtabs="message" url="/admin/message" content="我的消息">
-        <i class="glyphicon glyphicon-bullhorn"></i>
-        我的消息
-    </button>
-    <button type="button" class="btn btn-default" addtabs="setting" id="setting" url="/admin/setting" title="系统设置">
-        <i class="glyphicon glyphicon-cog"></i>
-        系统设置
-    </button>
-</div>
-```
-主体
-```
-<div id="tabs">
-    <!-- Nav tabs -->
-    <ul class="nav nav-tabs" role="tablist">
-        <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Home</a></li>
-    </ul>
-
-    <!-- Tab panes -->
-    <div class="tab-content">
-        <div role="tabpanel" class="tab-pane active" id="home">
-            <button type="button" class="btn btn-default" addtabs="save" id="save" url="/admin/save"><i class="glyphicon glyphicon-floppy-disk"></i>SAVE</button>
-            <textarea id="content-editor" class="clear">
-                <span>Edit me here</span>
-            </textarea>
-        </div>
-    </div>
-</div>
-```
 
 ##参数
+
 -  content string||html 直接指定内容
 -  close bool 是否可以关闭，默认是true
 -  monitor 监视的区域,默认是body
