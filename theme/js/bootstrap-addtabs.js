@@ -113,7 +113,6 @@ window.Addtabs = {
     },
     close: function (id) {
         //如果关闭的是当前激活的TAB，激活他的前一个TAB
-        console.log(obj.find("li.active").attr('id'))
         if (obj.find("li.active").attr('id') == "tab_" + id) {
             $("#tab_" + id).prev().addClass('active');
             $("#" + id).prev().addClass('active');
