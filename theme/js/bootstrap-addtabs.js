@@ -45,7 +45,7 @@ $.fn.addtabs = function (options) {
     })
 
     $(window).resize(function () {
-        obj.find('iframe').attr('height', options.iframeHeight);
+        obj.find('iframe').attr('height', Addtabs.options.iframeHeight);
         Addtabs.drop();
     });
 
