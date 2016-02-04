@@ -1,60 +1,59 @@
 /**
  * Website: http://git.oschina.net/hbbcs/bootStrap-addTabs
  *
- * Created by joe on 2015-12-19.
+ * Version : 0.6
+ *
+ * Created by joe on 2016-2-4.
  */
 
-/**
- *
- * @param {type} options {
- * content string||html 直接指定内容
- * close bool 是否可以关闭
- * monitor 监视的区域
- * }
- *
- * @returns
- */
 $.fn.addtabs = function (options) {
     obj = $(this);
-    options = $.extend({
+    Addtabs.options = $.extend({
         content: '', //直接指定所有页面TABS内容
         close: true, //是否可以关闭
         monitor: 'body', //监视的区域
         iframeUse: true, //使用iframe还是ajax
         iframeHeight: $(document).height() - 107, //固定TAB中IFRAME高度,根据需要自己修改
+        method: 'init',
         callback: function () { //关闭后回调函数
         }
     }, options || {});
 
-    $(options.monitor).on('click', '[addtabs]', function () {
-        _add({
-            id: $(this).attr('addtabs'),
+
+    $(Addtabs.options.monitor).on('click', '[data-addtab]', function () {
+        Addtabs.add({
+            id: $(this).attr('data-addtab'),
             title: $(this).attr('title') ? $(this).attr('title') : $(this).html(),
-            content: options.content ? options.content : $(this).attr('content'),
+            content: Addtabs.options.content ? Addtabs.options.content : $(this).attr('content'),
             url: $(this).attr('url'),
             ajax: $(this).attr('ajax') ? true : false
         });
     });
 
     obj.on('click', '.close-tab', function () {
-        id = $(this).prev("a").attr("aria-controls");
-        _close(id);
+        var id = $(this).prev("a").attr("aria-controls");
+        Addtabs.close(id);
     });
-    
-    obj.on('mouseover','.close-tab',function(){
+
+
+    obj.on('mouseover', '.close-tab', function () {
         $(this).removeClass('glyphicon-remove').addClass('glyphicon-remove-circle');
     })
 
-    obj.on('mouseout','.close-tab',function(){
+    obj.on('mouseout', '.close-tab', function () {
         $(this).removeClass('glyphicon-remove-circle').addClass('glyphicon-remove');
     })
 
     $(window).resize(function () {
         obj.find('iframe').attr('height', options.iframeHeight);
-        _drop();
+        Addtabs.drop();
     });
 
-    _add = function (opts) {
+};
+
+window.Addtabs = {
+    options:{},
+    add: function (opts) {
         var id = 'tab_' + opts.id;
         obj.find('.active').removeClass('active');
         //如果TAB不存在，创建一个新的TAB
@@ -74,7 +73,7 @@ $.fn.addtabs = function (options) {
             );
 
             //是否允许关闭
-            if (options.close) {
+            if (Addtabs.options.close) {
                 title.append(' <i class="close-tab glyphicon glyphicon-remove"></i>');
             }
             //创建新TAB的内容
@@ -84,14 +83,14 @@ $.fn.addtabs = function (options) {
                 'role': 'tabpanel'
             });
 
-                //是否指定TAB内容
+            //是否指定TAB内容
             if (opts.content) {
                 content.append(opts.content);
-            } else if (options.iframeUse && !opts.ajax) {//没有内容，使用IFRAME打开链接
+            } else if (Addtabs.options.iframeUse && !opts.ajax) {//没有内容，使用IFRAME打开链接
                 content.append(
                     $('<iframe>', {
                         'class': 'iframeClass',
-                        'height': options.iframeHeight,
+                        'height': Addtabs.options.iframeHeight,
                         'frameborder': "no",
                         'border': "0",
                         'src': opts.url
@@ -103,18 +102,18 @@ $.fn.addtabs = function (options) {
                 });
             }
             //加入TABS
-            obj.find('.nav-tabs').append(title);
-            obj.find(".tab-content").append(content);
+            obj.children('.nav-tabs').append(title);
+            obj.children(".tab-content").append(content);
         }
 
         //激活TAB
         $("#tab_" + id).addClass('active');
         $("#" + id).addClass("active");
-        _drop();
-    };
-
-    _close = function (id) {
+        Addtabs.drop();
+    },
+    close: function (id) {
         //如果关闭的是当前激活的TAB，激活他的前一个TAB
+        console.log(obj.find("li.active").attr('id'))
         if (obj.find("li.active").attr('id') == "tab_" + id) {
             $("#tab_" + id).prev().addClass('active');
             $("#" + id).prev().addClass('active');
@@ -122,11 +121,10 @@ $.fn.addtabs = function (options) {
         //关闭TAB
         $("#tab_" + id).remove();
         $("#" + id).remove();
-        _drop();
-        options.callback();
-    };
-
-    _drop = function () {
+        Addtabs.drop();
+        Addtabs.options.callback();
+    },
+    drop: function () {
         element = obj.find('.nav-tabs');
         //创建下拉标签
         var dropdown = $('<li>', {
@@ -179,5 +177,5 @@ $.fn.addtabs = function (options) {
         } else {
             dropdown.addClass('hide');
         }
-    };
-};
+    }
+}
