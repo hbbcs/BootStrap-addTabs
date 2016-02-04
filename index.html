@@ -23,7 +23,16 @@
         <![endif]-->
         <script type="text/javascript">
             $(function(){
-                $('#tabs').addtabs();
+                $('#tabs').addtabs({monitor:'.topbar'});
+                $('#save').click(function(){
+                    Addtabs.add({
+                       id: $(this).attr('addtabs'),
+                       title: $(this).attr('title') ? $(this).attr('title') : $(this).html(),
+                       content: Addtabs.options.content ? Addtabs.options.content : $(this).attr('content'),
+                       url: $(this).attr('url'),
+                       ajax: $(this).attr('ajax') ? true : false
+                    })
+                });
             })
         </script>
     </head>
@@ -34,30 +43,32 @@
                 <small></small>
             </div>
             <div class="topbar-collapse">
+                <!--Button group-->
                 <div class="btn-group" role="group" aria-label="...">
-                    <button type="button" class="btn btn-default" addtabs="mail" url="/admin/mail"><i class="glyphicon glyphicon-envelope"></i>我的邮件</button>
-                    <button type="button" class="btn btn-default" addtabs="profile" url="/admin/profile"><i class="glyphicon glyphicon-user"></i>我的属性</button>
-                    <button type="button" class="btn btn-default" addtabs="message" url="/admin/message" content="指定内容"><i class="glyphicon glyphicon-bullhorn"></i>指定内容</button>
-                    <button type="button" class="btn btn-default" addtabs="setting" url="/admin/setting" title="指定标题"><i class="glyphicon glyphicon-cog"></i>指定标题</button>
-                    <button type="button" class="btn btn-default" addtabs="profile" url="/admin/profile" ajax='true'><i class="glyphicon glyphicon-user"></i>使用AJAX</button>
+                    <button type="button" class="btn btn-default" data-addtab="mail" url="/admin/mail"><i class="glyphicon glyphicon-envelope"></i>我的邮件</button>
+                    <button type="button" class="btn btn-default" data-addtab="profile" url="/admin/profile"><i class="glyphicon glyphicon-user"></i>我的属性</button>
+                    <button type="button" class="btn btn-default" data-addtab="message" url="/admin/message" content="指定内容"><i class="glyphicon glyphicon-bullhorn"></i>指定内容</button>
+                    <button type="button" class="btn btn-default" data-addtab="setting" url="/admin/setting" title="指定标题"><i class="glyphicon glyphicon-cog"></i>指定标题</button>
+                    <button type="button" class="btn btn-default" data-addtab="profile" url="/admin/profile" ajax='true'><i class="glyphicon glyphicon-user"></i>使用AJAX</button>
                 </div>
             </div>
         </header>
 
 
         <div class="col-md-12">
-
-
             <div id="tabs">
-
                 <!-- Nav tabs -->
                 <ul class="nav nav-tabs" role="tablist">
                     <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Home</a></li>                    
                 </ul>
-
                 <!-- Tab panes -->
                 <div class="tab-content">
-                    <div role="tabpanel" class="tab-pane active" id="home">...</div>                    
+                    <div role="tabpanel" class="tab-pane active" id="home">
+                        <button type="button" class="btn btn-default" addtabs="save" id="save" url="/admin/save">
+                            <i class="glyphicon glyphicon-floppy-disk"></i>
+                            SAVE                            
+                        </button>
+                    </div>                    
                 </div>
 
             </div>
