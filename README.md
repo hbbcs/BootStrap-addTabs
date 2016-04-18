@@ -13,6 +13,13 @@
 ```
 $('#tabs').addtabs({monitor:'.btn-group'});
 ```
+iframe子窗口调用父窗口中的按钮
+```
+$(function() {
+    var message_btn = parent.$(window.parent.document).find("a[data-addtab=message]");//触发父窗口按钮
+    message_btn.trigger("click");
+})
+```
 
 ##参数
 
