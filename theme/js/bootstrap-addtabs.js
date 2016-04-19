@@ -1,7 +1,7 @@
 /**
  * Website: http://git.oschina.net/hbbcs/bootStrap-addTabs
  *
- * Version : 0.6
+ * Version : 1.0
  *
  * Created by joe on 2016-2-4.
  */
