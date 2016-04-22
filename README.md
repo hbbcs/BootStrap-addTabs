@@ -13,11 +13,20 @@
 ```
 $('#tabs').addtabs({monitor:'.btn-group'});
 ```
+以下两种子窗口操作方式，是在子窗口不加载bootstrap-addtabs的环境下。
+
 iframe子窗口调用父窗口中的按钮
 ```
 $(function() {
     var message_btn = parent.$(window.parent.document).find("a[data-addtab=message]");//触发父窗口按钮
     message_btn.trigger("click");
+})
+```
+iframe子窗口关闭父窗口的TABS
+```
+$(function() {
+    $(window.parent.document).find('#tab_tab_message').remove();
+    $(window.parent.document).find('#tab_message').remove();
 })
 ```
 
