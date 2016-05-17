@@ -55,7 +55,9 @@ window.Addtabs = {
     options:{},
     add: function (opts) {
         var id = 'tab_' + opts.id;
-        obj.find('.active').removeClass('active');
+        //obj.find('.active').removeClass('active');
+        $('li[role = "presentation"].active').removeClass('active'); 
+        $('div[role = "tabpanel"].active').removeClass('active');
         //如果TAB不存在，创建一个新的TAB
         if (!$("#" + id)[0]) {
             //创建新TAB的title
