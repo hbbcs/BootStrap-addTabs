@@ -13,6 +13,7 @@
     cursor: hand;
     cursor: pointer;
     color: #94A6B0;
+    display: none;
 }
 
 .topbar-collapse {
