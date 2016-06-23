@@ -36,13 +36,13 @@ $.fn.addtabs = function (options) {
     });
 
 
-    obj.on('mouseover', '.close-tab', function () {
-        $(this).removeClass('glyphicon-remove').addClass('glyphicon-remove-circle');
-    })
+    obj.on('mouseover','li',function() {
+        $(this).find('.close-tab').show();
+    });
 
-    obj.on('mouseout', '.close-tab', function () {
-        $(this).removeClass('glyphicon-remove-circle').addClass('glyphicon-remove');
-    })
+    obj.on('mouseleave','li',function() {
+        $(this).find('.close-tab').hide();
+    });
 
     $(window).resize(function () {
         obj.find('iframe').attr('height', Addtabs.options.iframeHeight);
