@@ -34,17 +34,20 @@ $.fn.addtabs = function (options) {
         var id = $(this).prev("a").attr("aria-controls");
         Addtabs.close(id);
     });
-  //obj上禁用右键菜单
+    //obj上禁用右键菜单
     obj.bind('contextmenu', function () {
         return false;
     });
 
-    //直接在TAB上点右键关闭TAB
+    //直接在TAB上点右键关闭未激活TAB
     obj.on('mousedown', 'li[id]', function (e) {
         if (e.which === 3) {
-            var id = $(this).children('a').attr('aria-controls');
-            Addtabs.close(id);
-            return false;
+            obj.find('li[id]').each(function(){
+                if (!$(this).hasClass('active')) {
+                    var id = $(this).children('a').attr('aria-controls');
+                    Addtabs.close(id);
+                }
+            });
         }
     });
 
@@ -191,7 +194,7 @@ window.Addtabs = {
             .find('>li')
             .not('.tabdrop')
             .each(function () {
-                if (this.offsetTop > 0 || element.width() - $(this).position().left - $(this).width() < 83) {
+                if (this.offsetTop > 71 || element.width() - $(this).position().left - $(this).width() < 83) {
                     dropdown.find('ul').append($(this));
                     collection++;
                 }
