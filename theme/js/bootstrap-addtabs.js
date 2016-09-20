@@ -39,9 +39,10 @@ $.fn.addtabs = function (options) {
         return false;
     });
 
-    //直接在TAB上点右键关闭未激活TAB
+    //直接在TAB上点右键关闭其他TAB，并激活当前tab;
     obj.on('mousedown', 'li[id]', function (e) {
         if (e.which === 3) {
+            $(this).tab('show');
             obj.find('li[id]').each(function(){
                 if (!$(this).hasClass('active')) {
                     var id = $(this).children('a').attr('aria-controls');
@@ -80,9 +81,7 @@ window.Addtabs = {
     options: {},
     add: function (opts) {
         var id = 'tab_' + opts.id;
-        //obj.find('.active').removeClass('active');
-        $('li[role = "presentation"].active').removeClass('active');
-        $('div[role = "tabpanel"].active').removeClass('active');
+
         //如果TAB不存在，创建一个新的TAB
         if (!$("#" + id)[0]) {
             //创建新TAB的title
@@ -136,15 +135,13 @@ window.Addtabs = {
         }
 
         //激活TAB
-        $("#tab_" + id).addClass('active');
-        $("#" + id).addClass("active");
+        $("#tab_" + id).tab('show');
         Addtabs.drop();
     },
     close: function (id) {
         //如果关闭的是当前激活的TAB，激活他的前一个TAB
         if (obj.find("li.active").attr('id') == "tab_" + id) {
-            $("#tab_" + id).prev().addClass('active');
-            $("#" + id).prev().addClass('active');
+            $("#tab_" + id).prev().tab('show');
         }
         //关闭TAB
         $("#tab_" + id).remove();
