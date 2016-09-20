@@ -16,9 +16,6 @@
     display: none;
 }
 
-.topbar-collapse {
-    float:right;
-}
 
 .iframeClass {
     z-index: 1;
@@ -31,4 +28,15 @@
     scrolling-x: 'no';
     scrolling-y: auto;
     allowtransparency: true;
+}
+
+.tab-drop {
+    margin-right: 30px;
+}
+
+.close-all {
+    position:absolute;
+    right: 5px;
+    z-index: 100;
+
 }

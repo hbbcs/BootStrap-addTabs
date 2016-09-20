@@ -34,13 +34,35 @@ $.fn.addtabs = function (options) {
         var id = $(this).prev("a").attr("aria-controls");
         Addtabs.close(id);
     });
+  //obj上禁用右键菜单
+    obj.bind('contextmenu', function () {
+        return false;
+    });
 
+    //直接在TAB上点右键关闭TAB
+    obj.on('mousedown', 'li[id]', function (e) {
+        if (e.which === 3) {
+            var id = $(this).children('a').attr('aria-controls');
+            Addtabs.close(id);
+            return false;
+        }
+    });
 
-    obj.on('mouseover','li',function() {
+    $('<button>',{'class':'btn btn-xs close-all','title':'关闭所有','id':'closeAllTab'})
+        .append($('<i>',{'class':'glyphicon glyphicon-remove'}))
+        .appendTo(obj.children('ul'));
+
+    $('#closeAllTab').css('top',obj.offset().top);
+
+    $('#closeAllTab').click(function(){
+        Addtabs.closeAll();
+    })
+
+    obj.on('mouseover', 'li', function () {
         $(this).find('.close-tab').show();
     });
 
-    obj.on('mouseleave','li',function() {
+    obj.on('mouseleave', 'li', function () {
         $(this).find('.close-tab').hide();
     });
 
@@ -52,11 +74,11 @@ $.fn.addtabs = function (options) {
 };
 
 window.Addtabs = {
-    options:{},
+    options: {},
     add: function (opts) {
         var id = 'tab_' + opts.id;
         //obj.find('.active').removeClass('active');
-        $('li[role = "presentation"].active').removeClass('active'); 
+        $('li[role = "presentation"].active').removeClass('active');
         $('div[role = "tabpanel"].active').removeClass('active');
         //如果TAB不存在，创建一个新的TAB
         if (!$("#" + id)[0]) {
@@ -77,7 +99,7 @@ window.Addtabs = {
             //是否允许关闭
             if (Addtabs.options.close) {
                 title.append(
-                    $('<i>',{'class':'close-tab glyphicon glyphicon-remove'})
+                    $('<i>', {'class': 'close-tab glyphicon glyphicon-remove'})
                 );
             }
             //创建新TAB的内容
@@ -127,11 +149,17 @@ window.Addtabs = {
         Addtabs.drop();
         Addtabs.options.callback();
     },
+    closeAll: function() {
+        $.each(obj.find('li[id]'),function(){
+            var id = $(this).children('a').attr('aria-controls');
+            Addtabs.close(id);
+        })
+    },
     drop: function () {
         element = obj.find('.nav-tabs');
         //创建下拉标签
         var dropdown = $('<li>', {
-            'class': 'dropdown pull-right hide tabdrop'
+            'class': 'dropdown pull-right hide tabdrop tab-drop'
         }).append(
             $('<a>', {
                 'class': 'dropdown-toggle',
@@ -163,7 +191,7 @@ window.Addtabs = {
             .find('>li')
             .not('.tabdrop')
             .each(function () {
-                if (this.offsetTop > 0 || element.width() - $(this).position().left - $(this).width() < 53) {
+                if (this.offsetTop > 71 || element.width() - $(this).position().left - $(this).width() < 83) {
                     dropdown.find('ul').append($(this));
                     collection++;
                 }
