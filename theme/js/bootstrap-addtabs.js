@@ -42,8 +42,12 @@ $.fn.addtabs = function (options) {
     //直接在TAB上点右键关闭其他TAB，并激活当前tab;
     obj.on('mousedown', 'li[id]', function (e) {
         if (e.which === 3) {
-            $(this).tab('show');
-            obj.find('li[id]').each(function(){
+            $('li[role = "presentation"].active').removeClass('active');
+            $('div[role = "tabpanel"].active').removeClass('active');
+            var tid = $(this).children('a').attr('aria-controls');
+            $(this).addClass('active');
+            $('#'+tid).addClass('active');
+            obj.find('li[id]').each(function () {
                 if (!$(this).hasClass('active')) {
                     var id = $(this).children('a').attr('aria-controls');
                     Addtabs.close(id);
@@ -52,13 +56,13 @@ $.fn.addtabs = function (options) {
         }
     });
 
-    $('<button>',{'class':'btn btn-xs close-all','title':'关闭所有','id':'closeAllTab'})
-        .append($('<i>',{'class':'glyphicon glyphicon-remove'}))
+    $('<button>', {'class': 'btn btn-xs close-all', 'title': '关闭所有', 'id': 'closeAllTab'})
+        .append($('<i>', {'class': 'glyphicon glyphicon-remove'}))
         .appendTo(obj.children('ul'));
 
-    $('#closeAllTab').css('top',obj.offset().top);
+    $('#closeAllTab').css('top', obj.offset().top);
 
-    $('#closeAllTab').click(function(){
+    $('#closeAllTab').click(function () {
         Addtabs.closeAll();
     })
 
@@ -81,7 +85,8 @@ window.Addtabs = {
     options: {},
     add: function (opts) {
         var id = 'tab_' + opts.id;
-
+        $('li[role = "presentation"].active').removeClass('active');
+        $('div[role = "tabpanel"].active').removeClass('active');
         //如果TAB不存在，创建一个新的TAB
         if (!$("#" + id)[0]) {
             //创建新TAB的title
@@ -135,13 +140,15 @@ window.Addtabs = {
         }
 
         //激活TAB
-        $("#tab_" + id).tab('show');
+        $('#tab_' + id).addClass('active');
+        $('#' + id).addClass('active');
         Addtabs.drop();
     },
     close: function (id) {
         //如果关闭的是当前激活的TAB，激活他的前一个TAB
-        if (obj.find("li.active").attr('id') == "tab_" + id) {
-            $("#tab_" + id).prev().tab('show');
+        if (obj.find("li.active").attr('id') === "tab_" + id) {
+            $("#tab_" + id).prev().addClass('active');
+            $("#" + id).prev().addClass('active');
         }
         //关闭TAB
         $("#tab_" + id).remove();
@@ -149,8 +156,8 @@ window.Addtabs = {
         Addtabs.drop();
         Addtabs.options.callback();
     },
-    closeAll: function() {
-        $.each(obj.find('li[id]'),function(){
+    closeAll: function () {
+        $.each(obj.find('li[id]'), function () {
             var id = $(this).children('a').attr('aria-controls');
             Addtabs.close(id);
         })
