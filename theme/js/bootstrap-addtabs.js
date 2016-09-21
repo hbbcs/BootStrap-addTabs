@@ -66,11 +66,11 @@ $.fn.addtabs = function (options) {
         Addtabs.closeAll();
     })
 
-    obj.on('mouseover', 'li', function () {
+    obj.on('mouseover', 'li[role = "presentation"]', function () {
         $(this).find('.close-tab').show();
     });
 
-    obj.on('mouseleave', 'li', function () {
+    obj.on('mouseleave', 'li[role = "presentation"]', function () {
         $(this).find('.close-tab').hide();
     });
 
