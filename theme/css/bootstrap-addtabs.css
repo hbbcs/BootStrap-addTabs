@@ -16,6 +16,8 @@
     display: none;
 }
 
+.nav-tabs {position: relative;}
+.nav-tabs li{position: relative;}
 
 .iframeClass {
     z-index: 1;
@@ -37,6 +39,7 @@
 .close-all {
     position:absolute;
     right: 5px;
+    top: 5px;
     z-index: 100;
 
 }

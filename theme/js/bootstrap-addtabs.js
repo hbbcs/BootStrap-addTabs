@@ -60,7 +60,7 @@ $.fn.addtabs = function (options) {
         .append($('<i>', {'class': 'glyphicon glyphicon-remove'}))
         .appendTo(obj.children('ul'));
 
-    $('#closeAllTab').css('top', obj.offset().top);
+    //$('#closeAllTab').css('top', obj.offset().top);
 
     $('#closeAllTab').click(function () {
         Addtabs.closeAll();
@@ -198,7 +198,7 @@ window.Addtabs = {
             .find('>li')
             .not('.tabdrop')
             .each(function () {
-                if (this.offsetTop > 71 || element.width() - $(this).position().left - $(this).width() < 83) {
+                if (this.offsetTop > 0 || element.width() - $(this).position().left - $(this).width() < 83) {
                     dropdown.find('ul').append($(this));
                     collection++;
                 }
