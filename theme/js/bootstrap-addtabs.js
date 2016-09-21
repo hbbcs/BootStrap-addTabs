@@ -159,8 +159,13 @@ window.Addtabs = {
     closeAll: function () {
         $.each(obj.find('li[id]'), function () {
             var id = $(this).children('a').attr('aria-controls');
-            Addtabs.close(id);
-        })
+            $("#tab_" + id).remove();
+            $("#" + id).remove();
+        });
+        obj.find('li[role = "presentation"]').first().addClass('active');
+        var firstID=obj.find('li[role = "presentation"]').first().children('a').attr('aria-controls');
+        $('#'+firstID).addClass('active');
+        Addtabs.drop();
     },
     drop: function () {
         element = obj.find('.nav-tabs');
