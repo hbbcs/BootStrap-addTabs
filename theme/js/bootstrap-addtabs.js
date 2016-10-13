@@ -35,36 +35,66 @@ $.fn.addtabs = function (options) {
         Addtabs.close(id);
     });
     //obj上禁用右键菜单
-    obj.bind('contextmenu', function () {
+    obj.on('contextmenu', 'li[role=presentation]', function () {
+        var id = $(this).children('a').attr('aria-controls');
+        Addtabs.pop(id, $(this));
         return false;
     });
 
-    //直接在TAB上点右键关闭其他TAB，并激活当前tab;
-    obj.on('mousedown', 'li[id]', function (e) {
-        if (e.which === 3) {
-            $('li[role = "presentation"].active').removeClass('active');
-            $('div[role = "tabpanel"].active').removeClass('active');
-            var tid = $(this).children('a').attr('aria-controls');
-            $(this).addClass('active');
-            $('#'+tid).addClass('active');
-            obj.find('li[id]').each(function () {
-                if (!$(this).hasClass('active')) {
-                    var id = $(this).children('a').attr('aria-controls');
-                    Addtabs.close(id);
-                }
-            });
-        }
+    //刷新页面
+    obj.on('click', 'ul.rightMenu a[data-right=refresh]', function () {
+        var id = $(this).parent('ul').attr("aria-controls").substring(4);
+        var url=$(this).parent('ul').attr('aria-url');
+        Addtabs.add({'id':id,'url':url});
+        $('#popMenu').fadeOut();
     });
 
-    $('<button>', {'class': 'btn btn-xs close-all', 'title': '关闭所有', 'id': 'closeAllTab'})
-        .append($('<i>', {'class': 'glyphicon glyphicon-remove'}))
-        .appendTo(obj.children('ul'));
+    //关闭自身
+    obj.on('click', 'ul.rightMenu a[data-right=remove]', function () {
+        var id = $(this).parent("ul").attr("aria-controls");
+        Addtabs.close(id);
+        Addtabs.drop();
+        $('#popMenu').fadeOut();
+    });
 
-    //$('#closeAllTab').css('top', obj.offset().top);
+    //关闭其他
+    obj.on('click', 'ul.rightMenu a[data-right=remove-circle]', function () {
+        var tab_id = $(this).parent('ul').attr("aria-controls");
+        obj.children('ul.nav').find('li').each(function () {
+            var id = $(this).attr('id');
+            if (id && id != 'tab_' + tab_id) {
+                Addtabs.close($(this).children('a').attr('aria-controls'));
+            }
+        });
+        Addtabs.drop();
+        $('#popMenu').fadeOut();
+    });
 
-    $('#closeAllTab').click(function () {
-        Addtabs.closeAll();
-    })
+    //关闭左侧
+    obj.on('click', 'ul.rightMenu a[data-right=remove-left]', function () {
+        var tab_id = $(this).parent('ul').attr("aria-controls");
+        $('#tab_' + tab_id).prevUntil().each(function () {
+            var id = $(this).attr('id');
+            if (id && id != 'tab_' + tab_id) {
+                Addtabs.close($(this).children('a').attr('aria-controls'));
+            }
+        });
+        Addtabs.drop();
+        $('#popMenu').fadeOut();
+    });
+
+    //关闭右侧
+    obj.on('click', 'ul.rightMenu a[data-right=remove-right]', function () {
+        var tab_id = $(this).parent('ul').attr("aria-controls");
+        $('#tab_' + tab_id).nextUntil().each(function () {
+            var id = $(this).attr('id');
+            if (id && id != 'tab_' + tab_id) {
+                Addtabs.close($(this).children('a').attr('aria-controls'));
+            }
+        });
+        Addtabs.drop();
+        $('#popMenu').fadeOut();
+    });
 
     obj.on('mouseover', 'li[role = "presentation"]', function () {
         $(this).find('.close-tab').show();
@@ -93,7 +123,8 @@ window.Addtabs = {
 
             var title = $('<li>', {
                 'role': 'presentation',
-                'id': 'tab_' + id
+                'id': 'tab_' + id,
+                'aria-url':opts.url
             }).append(
                 $('<a>', {
                     'href': '#' + id,
@@ -116,33 +147,56 @@ window.Addtabs = {
                 'role': 'tabpanel'
             });
 
-            //是否指定TAB内容
-            if (opts.content) {
-                content.append(opts.content);
-            } else if (Addtabs.options.iframeUse && !opts.ajax) {//没有内容，使用IFRAME打开链接
-                content.append(
-                    $('<iframe>', {
-                        'class': 'iframeClass',
-                        'height': Addtabs.options.iframeHeight,
-                        'frameborder': "no",
-                        'border': "0",
-                        'src': opts.url
-                    })
-                );
-            } else {
-                $.get(opts.url, function (data) {
-                    content.append(data);
-                });
-            }
             //加入TABS
             obj.children('.nav-tabs').append(title);
             obj.children(".tab-content").append(content);
+        } else {
+            var content = $('#' + id);
+            content.html('');
+        }
+
+        //是否指定TAB内容
+        if (opts.content) {
+            content.append(opts.content);
+        } else if (Addtabs.options.iframeUse && !opts.ajax) {//没有内容，使用IFRAME打开链接
+            content.append(
+                $('<iframe>', {
+                    'class': 'iframeClass',
+                    'height': Addtabs.options.iframeHeight,
+                    'frameborder': "no",
+                    'border': "0",
+                    'src': opts.url
+                })
+            );
+        } else {
+            $.get(opts.url, function (data) {
+                content.append(data);
+            });
         }
 
         //激活TAB
         $('#tab_' + id).addClass('active');
         $('#' + id).addClass('active');
         Addtabs.drop();
+    },
+    pop: function (id,e) {
+        $('body').find('#popMenu').remove();
+        var pop = $('<ul>', {'aria-controls': id, 'class': 'rightMenu list-group', id: 'popMenu','aria-url':e.attr('url')})
+            .append(
+            '<a href="javascript:void(0);" class="list-group-item" data-right="refresh"><i class="glyphicon glyphicon-refresh"></i> 刷新此标签</a>' +
+            '<a href="javascript:void(0);" class="list-group-item" data-right="remove"><i class="glyphicon glyphicon-remove"></i> 关闭此标签</a>' +
+            '<a href="javascript:void(0);" class="list-group-item" data-right="remove-circle"><i class="glyphicon glyphicon-remove-circle"></i> 关闭其他标签</a>' +
+            '<a href="javascript:void(0);" class="list-group-item" data-right="remove-left"><i class="glyphicon glyphicon-chevron-left"></i> 关闭左侧标签</a>' +
+            '<a href="javascript:void(0);" class="list-group-item" data-right="remove-right"><i class="glyphicon glyphicon-chevron-right"></i> 关闭右侧标签</a>'
+        );
+        pop.css({
+            'top': e.context.offsetHeight - 10 + 'px',
+            'left': e.context.offsetLeft + 20 + 'px'
+        });
+        pop.appendTo(obj).fadeIn('slow');
+        pop.mouseleave(function () {
+            $(this).fadeOut('slow');
+        });
     },
     close: function (id) {
         //如果关闭的是当前激活的TAB，激活他的前一个TAB

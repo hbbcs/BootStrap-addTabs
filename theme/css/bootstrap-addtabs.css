@@ -36,10 +36,9 @@
     margin-right: 30px;
 }
 
-.close-all {
-    position:absolute;
-    right: 5px;
-    top: 5px;
-    z-index: 100;
-
+.rightMenu {
+    position: absolute;
+    width: 150px;
+    z-index: 99;
+    display: none;
 }
