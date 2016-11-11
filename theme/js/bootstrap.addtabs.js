@@ -181,7 +181,7 @@ window.Addtabs = {
     },
     pop: function (id,e) {
         $('body').find('#popMenu').remove();
-        var pop = $('<ul>', {'aria-controls': id, 'class': 'rightMenu list-group', id: 'popMenu','aria-url':e.attr('url')})
+        var popHtml = $('<ul>', {'aria-controls': id, 'class': 'rightMenu list-group', id: 'popMenu','aria-url':e.attr('url')})
             .append(
             '<a href="javascript:void(0);" class="list-group-item" data-right="refresh"><i class="glyphicon glyphicon-refresh"></i> 刷新此标签</a>' +
             '<a href="javascript:void(0);" class="list-group-item" data-right="remove"><i class="glyphicon glyphicon-remove"></i> 关闭此标签</a>' +
@@ -189,12 +189,12 @@ window.Addtabs = {
             '<a href="javascript:void(0);" class="list-group-item" data-right="remove-left"><i class="glyphicon glyphicon-chevron-left"></i> 关闭左侧标签</a>' +
             '<a href="javascript:void(0);" class="list-group-item" data-right="remove-right"><i class="glyphicon glyphicon-chevron-right"></i> 关闭右侧标签</a>'
         );
-        pop.css({
-            'top': e.context.offsetHeight - 10 + 'px',
-            'left': e.context.offsetLeft + 20 + 'px'
+        popHtml.css({
+            'top': e[0].offsetHeight - 10 + 'px',
+            'left': e[0].offsetLeft + 50 + 'px'
         });
-        pop.appendTo(obj).fadeIn('slow');
-        pop.mouseleave(function () {
+        popHtml.appendTo(obj).fadeIn('slow');
+        popHtml.mouseleave(function () {
             $(this).fadeOut('slow');
         });
     },
