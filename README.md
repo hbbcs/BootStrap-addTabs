@@ -1,5 +1,5 @@
 #评论关闭
-如果有意见或建议请到Issues中发表。
+如果有意见或建议请到[Issues](https://git.oschina.net/hbbcs/bootStrap-addTabs/issues)中发表。
 
 #UPDATE
 - 2016/10/13 新增TAB右键菜单，取消右键关闭，注：不希望关闭的tab，不要设置ID
