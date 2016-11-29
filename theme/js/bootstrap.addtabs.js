@@ -1,7 +1,7 @@
 /**
  * Website: http://git.oschina.net/hbbcs/bootStrap-addTabs
  *
- * Version : 1.0
+ * Version : 1.5
  *
  * Created by joe on 2016-2-4.
  */
@@ -44,8 +44,8 @@ $.fn.addtabs = function (options) {
     //刷新页面
     obj.on('click', 'ul.rightMenu a[data-right=refresh]', function () {
         var id = $(this).parent('ul').attr("aria-controls").substring(4);
-        var url=$(this).parent('ul').attr('aria-url');
-        Addtabs.add({'id':id,'url':url});
+        var url = $(this).parent('ul').attr('aria-url');
+        Addtabs.add({'id': id, 'url': url});
         $('#popMenu').fadeOut();
     });
 
@@ -96,6 +96,27 @@ $.fn.addtabs = function (options) {
         $('#popMenu').fadeOut();
     });
 
+    //拖动事件
+    obj.on('dragstart', 'li[role = "presentation"]', function (e) {
+        var li = $(this);
+        e.originalEvent.dataTransfer.setData("Tabs", li.attr('id'));
+        //$(this).clone().insertAfter(this);
+    });
+
+    obj.on('dragover', 'ul.nav', function (e) {
+        console.log('dragover');
+        e.stopPropagation();
+        e.preventDefault();
+    });
+
+    obj.on('drop', 'ul.nav', function (e) {
+
+        console.log(e);
+        var data = e.originalEvent.dataTransfer.getData("Tabs");
+        console.log(e.target.nodeName, data);
+        $(this).append($(data));
+    });
+
     obj.on('mouseover', 'li[role = "presentation"]', function () {
         $(this).find('.close-tab').show();
     });
@@ -118,13 +139,14 @@ window.Addtabs = {
         $('li[role = "presentation"].active').removeClass('active');
         $('div[role = "tabpanel"].active').removeClass('active');
         //如果TAB不存在，创建一个新的TAB
-        if (!$("#" + id)[0]) {
+        if (!$("#" + id).length) {
             //创建新TAB的title
 
             var title = $('<li>', {
                 'role': 'presentation',
                 'id': 'tab_' + id,
-                'aria-url':opts.url
+                'aria-url': opts.url,
+                'draggable': true
             }).append(
                 $('<a>', {
                     'href': '#' + id,
@@ -179,9 +201,14 @@ window.Addtabs = {
         $('#' + id).addClass('active');
         Addtabs.drop();
     },
-    pop: function (id,e) {
+    pop: function (id, e) {
         $('body').find('#popMenu').remove();
-        var popHtml = $('<ul>', {'aria-controls': id, 'class': 'rightMenu list-group', id: 'popMenu','aria-url':e.attr('url')})
+        var popHtml = $('<ul>', {
+            'aria-controls': id,
+            'class': 'rightMenu list-group',
+            id: 'popMenu',
+            'aria-url': e.attr('aria-url')
+        })
             .append(
             '<a href="javascript:void(0);" class="list-group-item" data-right="refresh"><i class="glyphicon glyphicon-refresh"></i> 刷新此标签</a>' +
             '<a href="javascript:void(0);" class="list-group-item" data-right="remove"><i class="glyphicon glyphicon-remove"></i> 关闭此标签</a>' +
@@ -217,8 +244,8 @@ window.Addtabs = {
             $("#" + id).remove();
         });
         obj.find('li[role = "presentation"]').first().addClass('active');
-        var firstID=obj.find('li[role = "presentation"]').first().children('a').attr('aria-controls');
-        $('#'+firstID).addClass('active');
+        var firstID = obj.find('li[role = "presentation"]').first().children('a').attr('aria-controls');
+        $('#' + firstID).addClass('active');
         Addtabs.drop();
     },
     drop: function () {
@@ -258,7 +285,7 @@ window.Addtabs = {
             .not('.tabdrop')
             .each(function () {
                 if (this.offsetTop > 0 || element.width() - $(this).position().left - $(this).width() < 83) {
-                    dropdown.find('ul').append($(this));
+                    dropdown.find('ul').prepend($(this));
                     collection++;
                 }
             });
