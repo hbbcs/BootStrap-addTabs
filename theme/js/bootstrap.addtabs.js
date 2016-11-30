@@ -36,7 +36,7 @@ $.fn.addtabs = function (options) {
         Addtabs.close(id);
     });
 
-    if(Addtabs.options.contextmenu) {
+    if (Addtabs.options.contextmenu) {
         //obj上禁用右键菜单
         obj.on('contextmenu', 'li[role=presentation]', function () {
             var id = $(this).children('a').attr('aria-controls');
