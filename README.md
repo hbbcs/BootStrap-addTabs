@@ -43,3 +43,4 @@ $(function() {
 -  iframeUse true使用iframe，false使用ajax,默认true
 -  iframeHeight 固定TAB中IFRAME高度
 -  callback 关闭后回调函数
+-  contextmenu True 是否启用右键菜单
