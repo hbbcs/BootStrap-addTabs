@@ -15,6 +15,7 @@ $.fn.addtabs = function (options) {
         iframeUse: true, //使用iframe还是ajax
         iframeHeight: $(document).height() - 107, //固定TAB中IFRAME高度,根据需要自己修改
         method: 'init',
+        contextmenu: true,//是否使用右键菜单
         callback: function () { //关闭后回调函数
         }
     }, options || {});
@@ -34,88 +35,70 @@ $.fn.addtabs = function (options) {
         var id = $(this).prev("a").attr("aria-controls");
         Addtabs.close(id);
     });
-    //obj上禁用右键菜单
-    obj.on('contextmenu', 'li[role=presentation]', function () {
-        var id = $(this).children('a').attr('aria-controls');
-        Addtabs.pop(id, $(this));
-        return false;
-    });
 
-    //刷新页面
-    obj.on('click', 'ul.rightMenu a[data-right=refresh]', function () {
-        var id = $(this).parent('ul').attr("aria-controls").substring(4);
-        var url = $(this).parent('ul').attr('aria-url');
-        Addtabs.add({'id': id, 'url': url});
-        $('#popMenu').fadeOut();
-    });
-
-    //关闭自身
-    obj.on('click', 'ul.rightMenu a[data-right=remove]', function () {
-        var id = $(this).parent("ul").attr("aria-controls");
-        Addtabs.close(id);
-        Addtabs.drop();
-        $('#popMenu').fadeOut();
-    });
-
-    //关闭其他
-    obj.on('click', 'ul.rightMenu a[data-right=remove-circle]', function () {
-        var tab_id = $(this).parent('ul').attr("aria-controls");
-        obj.children('ul.nav').find('li').each(function () {
-            var id = $(this).attr('id');
-            if (id && id != 'tab_' + tab_id) {
-                Addtabs.close($(this).children('a').attr('aria-controls'));
-            }
+    if(options.contextmenu) {
+        //obj上禁用右键菜单
+        obj.on('contextmenu', 'li[role=presentation]', function () {
+            var id = $(this).children('a').attr('aria-controls');
+            Addtabs.pop(id, $(this));
+            return false;
         });
-        Addtabs.drop();
-        $('#popMenu').fadeOut();
-    });
 
-    //关闭左侧
-    obj.on('click', 'ul.rightMenu a[data-right=remove-left]', function () {
-        var tab_id = $(this).parent('ul').attr("aria-controls");
-        $('#tab_' + tab_id).prevUntil().each(function () {
-            var id = $(this).attr('id');
-            if (id && id != 'tab_' + tab_id) {
-                Addtabs.close($(this).children('a').attr('aria-controls'));
-            }
+        //刷新页面
+        obj.on('click', 'ul.rightMenu a[data-right=refresh]', function () {
+            var id = $(this).parent('ul').attr("aria-controls").substring(4);
+            var url = $(this).parent('ul').attr('aria-url');
+            Addtabs.add({'id': id, 'url': url});
+            $('#popMenu').fadeOut();
         });
-        Addtabs.drop();
-        $('#popMenu').fadeOut();
-    });
 
-    //关闭右侧
-    obj.on('click', 'ul.rightMenu a[data-right=remove-right]', function () {
-        var tab_id = $(this).parent('ul').attr("aria-controls");
-        $('#tab_' + tab_id).nextUntil().each(function () {
-            var id = $(this).attr('id');
-            if (id && id != 'tab_' + tab_id) {
-                Addtabs.close($(this).children('a').attr('aria-controls'));
-            }
+        //关闭自身
+        obj.on('click', 'ul.rightMenu a[data-right=remove]', function () {
+            var id = $(this).parent("ul").attr("aria-controls");
+            Addtabs.close(id);
+            Addtabs.drop();
+            $('#popMenu').fadeOut();
         });
-        Addtabs.drop();
-        $('#popMenu').fadeOut();
-    });
 
-    //拖动事件
-    obj.on('dragstart', 'li[role = "presentation"]', function (e) {
-        var li = $(this);
-        e.originalEvent.dataTransfer.setData("Tabs", li.attr('id'));
-        //$(this).clone().insertAfter(this);
-    });
+        //关闭其他
+        obj.on('click', 'ul.rightMenu a[data-right=remove-circle]', function () {
+            var tab_id = $(this).parent('ul').attr("aria-controls");
+            obj.children('ul.nav').find('li').each(function () {
+                var id = $(this).attr('id');
+                if (id && id != 'tab_' + tab_id) {
+                    Addtabs.close($(this).children('a').attr('aria-controls'));
+                }
+            });
+            Addtabs.drop();
+            $('#popMenu').fadeOut();
+        });
 
-    obj.on('dragover', 'ul.nav', function (e) {
-        console.log('dragover');
-        e.stopPropagation();
-        e.preventDefault();
-    });
+        //关闭左侧
+        obj.on('click', 'ul.rightMenu a[data-right=remove-left]', function () {
+            var tab_id = $(this).parent('ul').attr("aria-controls");
+            $('#tab_' + tab_id).prevUntil().each(function () {
+                var id = $(this).attr('id');
+                if (id && id != 'tab_' + tab_id) {
+                    Addtabs.close($(this).children('a').attr('aria-controls'));
+                }
+            });
+            Addtabs.drop();
+            $('#popMenu').fadeOut();
+        });
 
-    obj.on('drop', 'ul.nav', function (e) {
-
-        console.log(e);
-        var data = e.originalEvent.dataTransfer.getData("Tabs");
-        console.log(e.target.nodeName, data);
-        $(this).append($(data));
-    });
+        //关闭右侧
+        obj.on('click', 'ul.rightMenu a[data-right=remove-right]', function () {
+            var tab_id = $(this).parent('ul').attr("aria-controls");
+            $('#tab_' + tab_id).nextUntil().each(function () {
+                var id = $(this).attr('id');
+                if (id && id != 'tab_' + tab_id) {
+                    Addtabs.close($(this).children('a').attr('aria-controls'));
+                }
+            });
+            Addtabs.drop();
+            $('#popMenu').fadeOut();
+        });
+    }
 
     obj.on('mouseover', 'li[role = "presentation"]', function () {
         $(this).find('.close-tab').show();
