@@ -55,6 +55,7 @@ $.fn.addtabs = function (options) {
         //关闭自身
         obj.on('click', 'ul.rightMenu a[data-right=remove]', function () {
             var id = $(this).parent("ul").attr("aria-controls");
+            if (id.substring(0,4)!='tab_') return;
             Addtabs.close(id);
             Addtabs.drop();
             $('#popMenu').fadeOut();
@@ -191,8 +192,7 @@ window.Addtabs = {
             'class': 'rightMenu list-group',
             id: 'popMenu',
             'aria-url': e.attr('aria-url')
-        })
-            .append(
+        }).append(
             '<a href="javascript:void(0);" class="list-group-item" data-right="refresh"><i class="glyphicon glyphicon-refresh"></i> 刷新此标签</a>' +
             '<a href="javascript:void(0);" class="list-group-item" data-right="remove"><i class="glyphicon glyphicon-remove"></i> 关闭此标签</a>' +
             '<a href="javascript:void(0);" class="list-group-item" data-right="remove-circle"><i class="glyphicon glyphicon-remove-circle"></i> 关闭其他标签</a>' +
