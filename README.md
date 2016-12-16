@@ -2,6 +2,7 @@
 如果有意见或建议请到[Issues](https://git.oschina.net/hbbcs/bootStrap-addTabs/issues)中发表。
 
 #UPDATE
+- 2016/12/16 修正点击按钮/链接会刷新已打开TAB
 - 2016/10/13 新增TAB右键菜单，取消右键关闭，注：不希望关闭的tab，不要设置ID
 - 2016/09/20 新增1、直接在TAB上点右键关闭其他TAB，并激活当前tab;2、关闭所有打开TAB的按钮
 - 2016/06/23 隐藏关闭按钮，鼠标指向TAB时显示

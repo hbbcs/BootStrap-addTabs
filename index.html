@@ -26,6 +26,9 @@
     <script type="text/javascript">
         $(function () {
             $('#tabs').addtabs({contextmenu:true});
+
+
+            $(".iframeClass").contents().find("#iframe中的控件ID")
             $('#save').click(function () {
                 Addtabs.add({
                     id: $(this).attr('addtabs'),
@@ -49,7 +52,7 @@
     <div class="topbar-collapse text-right">
         <!--Button group-->
         <div class="btn-group" role="group" aria-label="...">
-            <button type="button" class="btn btn-default" data-addtab="mail" url="/admin/mail">
+            <button type="button" class="btn btn-default" data-addtab="mail" url="admin/mail.html">
                 <i class="glyphicon glyphicon-envelope"></i>我的邮件
             </button>
             <button type="button" class="btn btn-default" data-addtab="profile" url="/admin/profile">
@@ -89,7 +92,8 @@
                             <a href="javascript:void(0);" data-addtab="userMenu2" url="/admin/message" class="list-group-item">用户菜单 2</a>
                             <a href="javascript:void(0);" data-addtab="userMenu3" url="/admin/message" class="list-group-item">用户菜单 3</a>
                             <a href="javascript:void(0);" data-addtab="userMenu4" url="/admin/message" class="list-group-item">用户菜单 4</a>
-                            <a href="javascript:void(0);" data-addtab="userMenu5" url="/admin/message" class="list-group-item">用户菜单 5</a>
+                            <a href="javascript:void(0);" data-addtab="userMenu5" url="http://sina.com.cn" class="list-group-item">新浪</a>
+                            <a href="javascript:void(0);" data-addtab="userMenu6" url="http://baidu.com" class="list-group-item">百度</a>
                         </ul>
                     </div>
                 </div>

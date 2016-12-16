@@ -7,7 +7,7 @@
  */
 
 $.fn.addtabs = function (options) {
-    obj = $(this);
+
     Addtabs.options = $.extend({
         content: '', //直接指定所有页面TABS内容
         close: true, //是否可以关闭
@@ -16,6 +16,7 @@ $.fn.addtabs = function (options) {
         iframeHeight: $(document).height() - 107, //固定TAB中IFRAME高度,根据需要自己修改
         method: 'init',
         contextmenu: true,//是否使用右键菜单
+        obj: $(this),
         callback: function () { //关闭后回调函数
         }
     }, options || {});
@@ -31,40 +32,40 @@ $.fn.addtabs = function (options) {
         });
     });
 
-    obj.on('click', '.close-tab', function () {
+    Addtabs.options.obj.on('click', '.close-tab', function () {
         var id = $(this).prev("a").attr("aria-controls");
         Addtabs.close(id);
     });
 
     if (Addtabs.options.contextmenu) {
         //obj上禁用右键菜单
-        obj.on('contextmenu', 'li[role=presentation]', function () {
+        Addtabs.options.obj.on('contextmenu', 'li[role=presentation]', function () {
             var id = $(this).children('a').attr('aria-controls');
             Addtabs.pop(id, $(this));
             return false;
         });
 
         //刷新页面
-        obj.on('click', 'ul.rightMenu a[data-right=refresh]', function () {
+        Addtabs.options.obj.on('click', 'ul.rightMenu a[data-right=refresh]', function () {
             var id = $(this).parent('ul').attr("aria-controls").substring(4);
             var url = $(this).parent('ul').attr('aria-url');
-            Addtabs.add({'id': id, 'url': url});
+            Addtabs.add({'id': id, 'url': url, 'refresh': true});
             $('#popMenu').fadeOut();
         });
 
         //关闭自身
-        obj.on('click', 'ul.rightMenu a[data-right=remove]', function () {
+        Addtabs.options.obj.on('click', 'ul.rightMenu a[data-right=remove]', function () {
             var id = $(this).parent("ul").attr("aria-controls");
-            if (id.substring(0,4)!='tab_') return;
+            if (id.substring(0, 4) != 'tab_') return;
             Addtabs.close(id);
             Addtabs.drop();
             $('#popMenu').fadeOut();
         });
 
         //关闭其他
-        obj.on('click', 'ul.rightMenu a[data-right=remove-circle]', function () {
+        Addtabs.options.obj.on('click', 'ul.rightMenu a[data-right=remove-circle]', function () {
             var tab_id = $(this).parent('ul').attr("aria-controls");
-            obj.children('ul.nav').find('li').each(function () {
+            Addtabs.options.obj.children('ul.nav').find('li').each(function () {
                 var id = $(this).attr('id');
                 if (id && id != 'tab_' + tab_id) {
                     Addtabs.close($(this).children('a').attr('aria-controls'));
@@ -75,7 +76,7 @@ $.fn.addtabs = function (options) {
         });
 
         //关闭左侧
-        obj.on('click', 'ul.rightMenu a[data-right=remove-left]', function () {
+        Addtabs.options.obj.on('click', 'ul.rightMenu a[data-right=remove-left]', function () {
             var tab_id = $(this).parent('ul').attr("aria-controls");
             $('#tab_' + tab_id).prevUntil().each(function () {
                 var id = $(this).attr('id');
@@ -88,7 +89,7 @@ $.fn.addtabs = function (options) {
         });
 
         //关闭右侧
-        obj.on('click', 'ul.rightMenu a[data-right=remove-right]', function () {
+        Addtabs.options.obj.on('click', 'ul.rightMenu a[data-right=remove-right]', function () {
             var tab_id = $(this).parent('ul').attr("aria-controls");
             $('#tab_' + tab_id).nextUntil().each(function () {
                 var id = $(this).attr('id');
@@ -101,16 +102,16 @@ $.fn.addtabs = function (options) {
         });
     }
 
-    obj.on('mouseover', 'li[role = "presentation"]', function () {
+    Addtabs.options.obj.on('mouseover', 'li[role = "presentation"]', function () {
         $(this).find('.close-tab').show();
     });
 
-    obj.on('mouseleave', 'li[role = "presentation"]', function () {
+    Addtabs.options.obj.on('mouseleave', 'li[role = "presentation"]', function () {
         $(this).find('.close-tab').hide();
     });
 
     $(window).resize(function () {
-        obj.find('iframe').attr('height', Addtabs.options.iframeHeight);
+        Addtabs.options.obj.find('iframe').attr('height', Addtabs.options.iframeHeight);
         Addtabs.drop();
     });
 
@@ -125,7 +126,6 @@ window.Addtabs = {
         //如果TAB不存在，创建一个新的TAB
         if (!$("#" + id).length) {
             //创建新TAB的title
-
             var title = $('<li>', {
                 'role': 'presentation',
                 'id': 'tab_' + id,
@@ -154,8 +154,13 @@ window.Addtabs = {
             });
 
             //加入TABS
-            obj.children('.nav-tabs').append(title);
-            obj.children(".tab-content").append(content);
+            Addtabs.options.obj.children('.nav-tabs').append(title);
+            Addtabs.options.obj.children(".tab-content").append(content);
+        } else if (!opts.refresh) {
+            $('#tab_' + id).addClass('active');
+            $('#' + id).addClass('active');
+            Addtabs.drop();
+            return;
         } else {
             var content = $('#' + id);
             content.html('');
@@ -203,14 +208,14 @@ window.Addtabs = {
             'top': e[0].offsetHeight - 10 + 'px',
             'left': e[0].offsetLeft + 50 + 'px'
         });
-        popHtml.appendTo(obj).fadeIn('slow');
+        popHtml.appendTo(Addtabs.options.obj).fadeIn('slow');
         popHtml.mouseleave(function () {
             $(this).fadeOut('slow');
         });
     },
     close: function (id) {
         //如果关闭的是当前激活的TAB，激活他的前一个TAB
-        if (obj.find("li.active").attr('id') === "tab_" + id) {
+        if (Addtabs.options.obj.find("li.active").attr('id') === "tab_" + id) {
             $("#tab_" + id).prev().addClass('active');
             $("#" + id).prev().addClass('active');
         }
@@ -226,13 +231,13 @@ window.Addtabs = {
             $("#tab_" + id).remove();
             $("#" + id).remove();
         });
-        obj.find('li[role = "presentation"]').first().addClass('active');
+        Addtabs.options.obj.find('li[role = "presentation"]').first().addClass('active');
         var firstID = obj.find('li[role = "presentation"]').first().children('a').attr('aria-controls');
         $('#' + firstID).addClass('active');
         Addtabs.drop();
     },
     drop: function () {
-        element = obj.find('.nav-tabs');
+        element = Addtabs.options.obj.find('.nav-tabs');
         //创建下拉标签
         var dropdown = $('<li>', {
             'class': 'dropdown pull-right hide tabdrop tab-drop'
