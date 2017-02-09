@@ -45,3 +45,10 @@ $(function() {
 -  iframeHeight num           固定TAB中IFRAME高度
 -  callback     function(){}  关闭后回调函数
 -  contextmenu  bool          是否启用右键菜单，默认true
+-  local:{
+    'refreshLabel': '刷新此标签',
+    'closeThisLabel': '关闭此标签',
+    'closeOtherLabel': '关闭其他标签',
+    'closeLeftLabel': '关闭左侧标签',
+    'closeRightLabel': '关闭右侧标签'
+},
