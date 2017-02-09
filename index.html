@@ -28,7 +28,9 @@
             $('#tabs').addtabs({contextmenu:true});
 
 
-            $(".iframeClass").contents().find("#iframe中的控件ID")
+            Addtabs.options.callback=function() {
+                alert('OK');
+            };
             $('#save').click(function () {
                 Addtabs.add({
                     id: $(this).attr('addtabs'),

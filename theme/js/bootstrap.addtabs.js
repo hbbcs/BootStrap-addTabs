@@ -1,9 +1,9 @@
 /**
  * Website: http://git.oschina.net/hbbcs/bootStrap-addTabs
  *
- * Version : 1.5
+ * Version : 1.6
  *
- * Created by joe on 2016-2-4.
+ * Created by joe on 2016-2-4.Update 2017-02-09
  */
 
 $.fn.addtabs = function (options) {
@@ -17,6 +17,13 @@ $.fn.addtabs = function (options) {
         method: 'init',
         contextmenu: true,//是否使用右键菜单
         obj: $(this),
+        local:{
+            'refreshLabel': '刷新此标签',
+            'closeThisLabel': '关闭此标签',
+            'closeOtherLabel': '关闭其他标签',
+            'closeLeftLabel': '关闭左侧标签',
+            'closeRightLabel': '关闭右侧标签'
+        },
         callback: function () { //关闭后回调函数
         }
     }, options || {});
@@ -50,7 +57,6 @@ $.fn.addtabs = function (options) {
             var id = $(this).parent('ul').attr("aria-controls").substring(4);
             var url = $(this).parent('ul').attr('aria-url');
             Addtabs.add({'id': id, 'url': url, 'refresh': true});
-            $('#popMenu').fadeOut();
         });
 
         //关闭自身
@@ -59,7 +65,6 @@ $.fn.addtabs = function (options) {
             if (id.substring(0, 4) != 'tab_') return;
             Addtabs.close(id);
             Addtabs.drop();
-            $('#popMenu').fadeOut();
         });
 
         //关闭其他
@@ -72,7 +77,6 @@ $.fn.addtabs = function (options) {
                 }
             });
             Addtabs.drop();
-            $('#popMenu').fadeOut();
         });
 
         //关闭左侧
@@ -85,7 +89,6 @@ $.fn.addtabs = function (options) {
                 }
             });
             Addtabs.drop();
-            $('#popMenu').fadeOut();
         });
 
         //关闭右侧
@@ -98,7 +101,6 @@ $.fn.addtabs = function (options) {
                 }
             });
             Addtabs.drop();
-            $('#popMenu').fadeOut();
         });
     }
 
@@ -192,17 +194,19 @@ window.Addtabs = {
     },
     pop: function (id, e) {
         $('body').find('#popMenu').remove();
+        var refresh = e.attr('id') ? '<a href="javascript:void(0);" class="list-group-item" data-right="refresh"><i class="glyphicon glyphicon-refresh"></i> '+Addtabs.options.local.refreshLabel+'</a>'
+        + '<a href="javascript:void(0);" class="list-group-item" data-right="remove"><i class="glyphicon glyphicon-remove"></i> '+Addtabs.options.local.closeThisLabel+'</a>' : '';
+        var left = e.prev('li').attr('id') ? '<a href="javascript:void(0);" class="list-group-item" data-right="remove-left"><i class="glyphicon glyphicon-chevron-left"></i> '+Addtabs.options.local.closeLeftLabel+'</a>' : '';
+        var right = e.next('li').attr('id') ? '<a href="javascript:void(0);" class="list-group-item" data-right="remove-right"><i class="glyphicon glyphicon-chevron-right"></i> '+Addtabs.options.local.closeRightLabel+'</a>' : '';
         var popHtml = $('<ul>', {
             'aria-controls': id,
             'class': 'rightMenu list-group',
             id: 'popMenu',
             'aria-url': e.attr('aria-url')
         }).append(
-            '<a href="javascript:void(0);" class="list-group-item" data-right="refresh"><i class="glyphicon glyphicon-refresh"></i> 刷新此标签</a>' +
-            '<a href="javascript:void(0);" class="list-group-item" data-right="remove"><i class="glyphicon glyphicon-remove"></i> 关闭此标签</a>' +
-            '<a href="javascript:void(0);" class="list-group-item" data-right="remove-circle"><i class="glyphicon glyphicon-remove-circle"></i> 关闭其他标签</a>' +
-            '<a href="javascript:void(0);" class="list-group-item" data-right="remove-left"><i class="glyphicon glyphicon-chevron-left"></i> 关闭左侧标签</a>' +
-            '<a href="javascript:void(0);" class="list-group-item" data-right="remove-right"><i class="glyphicon glyphicon-chevron-right"></i> 关闭右侧标签</a>'
+            refresh +
+            '<a href="javascript:void(0);" class="list-group-item" data-right="remove-circle"><i class="glyphicon glyphicon-remove-circle"></i> '+Addtabs.options.local.closeOtherLabel+'</a>' +
+            left + right
         );
         popHtml.css({
             'top': e[0].offsetHeight - 10 + 'px',
@@ -212,6 +216,9 @@ window.Addtabs = {
         popHtml.mouseleave(function () {
             $(this).fadeOut('slow');
         });
+        $('body').click(function() {
+            popHtml.fadeOut('slow');
+        })
     },
     close: function (id) {
         //如果关闭的是当前激活的TAB，激活他的前一个TAB
