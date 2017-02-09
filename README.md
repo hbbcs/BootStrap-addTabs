@@ -44,6 +44,7 @@ monitor      string        监视的区域,默认是body
 iframeUse    bool          使用iframe，false使用ajax,默认true
 iframeHeight num           固定TAB中IFRAME高度
 callback     function(){}  关闭后回调函数
+contextmenu  bool          是否使用右键菜单
 contextmenu  bool          是否启用右键菜单，默认true
 local:{
     'refreshLabel': '刷新此标签',
