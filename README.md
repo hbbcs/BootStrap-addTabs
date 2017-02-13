@@ -2,6 +2,7 @@
 如果有意见或建议请到[Issues](https://git.oschina.net/hbbcs/bootStrap-addTabs/issues)中发表。
 
 #UPDATE
+- 2017/02/09 更改右键菜单，增加右键菜单local设置
 - 2016/12/16 修正点击按钮/链接会刷新已打开TAB
 - 2016/10/13 新增TAB右键菜单，取消右键关闭，注：不希望关闭的tab，不要设置ID
 - 2016/09/20 新增1、直接在TAB上点右键关闭其他TAB，并激活当前tab;2、关闭所有打开TAB的按钮
@@ -37,11 +38,19 @@ $(function() {
 ```
 
 ##参数
-
--  content      string|html   直接指定内容
--  close        bool          是否可以关闭，默认是true
--  monitor      string        监视的区域,默认是body
--  iframeUse    bool          使用iframe，false使用ajax,默认true
--  iframeHeight num           固定TAB中IFRAME高度
--  callback     function(){}  关闭后回调函数
--  contextmenu  bool          是否启用右键菜单，默认true
+```
+content      string|html   直接指定内容
+close        bool          是否可以关闭，默认是true
+monitor      string        监视的区域,默认是body
+iframeUse    bool          使用iframe，false使用ajax,默认true
+iframeHeight num           固定TAB中IFRAME高度
+callback     function(){}  关闭后回调函数
+contextmenu  bool          是否启用右键菜单，默认true
+local:{
+    'refreshLabel': '刷新此标签',
+    'closeThisLabel': '关闭此标签',
+    'closeOtherLabel': '关闭其他标签',
+    'closeLeftLabel': '关闭左侧标签',
+    'closeRightLabel': '关闭右侧标签'
+}
+```
