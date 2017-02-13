@@ -1,3 +1,5 @@
+#多谢 @可达鸭 的捐赠
+
 #评论关闭
 如果有意见或建议请到[Issues](https://git.oschina.net/hbbcs/bootStrap-addTabs/issues)中发表。
 
