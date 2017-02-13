@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+
+    <title>ADBC</title>
+
+    <link rel="stylesheet" href="theme/css/bootstrap.min.css" type="text/css" media="screen"/>
+    <link rel="stylesheet" href="theme/css/bootstrap.addtabs.css" type="text/css" media="screen"/>
+
+    <script src="theme/js/jquery.min.js"></script>
+    <script src="theme/js/bootstrap.min.js"></script>
+    <script src="theme/js/bootstrap.addtabs.js"></script>
+
+    <!--[if lt IE 9]>
+    <script src="theme/js/html5shiv.min.js"></script>
+    <script src="theme/js/respond.min.js"></script>
+    <![endif]-->
+
+
+    <script type="text/javascript">
+        $(function () {
+            $('#tabs').addtabs({contextmenu:true});
+
+
+            Addtabs.options.callback=function() {
+                alert('OK');
+            };
+            $('#save').click(function () {
+                Addtabs.add({
+                    id: $(this).attr('addtabs'),
+                    title: $(this).attr('title') ? $(this).attr('title') : $(this).html(),
+                    content: Addtabs.options.content ? Addtabs.options.content : $(this).attr('content'),
+                    url: $(this).attr('url'),
+                    ajax: $(this).attr('ajax') ? true : false
+                })
+            });
+        })
+    </script>
+</head>
+<body>
+<header class="topbar admin-header">
+    <div class="brand">
+        <strong>LOGO IN HERE</strong>
+        <small></small>
+    </div>
+
+
+    <div class="topbar-collapse text-right">
+        <!--Button group-->
+        <div class="btn-group" role="group" aria-label="...">
+            <button type="button" class="btn btn-default" data-addtab="mail" url="admin/mail.html">
+                <i class="glyphicon glyphicon-envelope"></i>我的邮件
+            </button>
+            <button type="button" class="btn btn-default" data-addtab="profile" url="/admin/profile">
+                <i class="glyphicon glyphicon-user"></i>我的属性
+            </button>
+            <button type="button" class="btn btn-default" data-addtab="message" url="/admin/message" content="指定内容">
+                <i class="glyphicon glyphicon-bullhorn"></i>指定内容
+            </button>
+            <button type="button" class="btn btn-default" data-addtab="setting" url="/admin/setting" title="指定标题">
+                <i class="glyphicon glyphicon-cog"></i>指定标题
+            </button>
+            <button type="button" class="btn btn-default" data-addtab="ajax" url="/admin/profiles" ajax='true'>
+                <i class="glyphicon glyphicon-user"></i>使用AJAX
+            </button>
+            <button type="button" class="btn btn-default" onclick="Addtabs.closeAll();">
+                <i class="glyphicon glyphicon-remove"></i>关闭所有
+            </button>
+        </div>
+    </div>
+</header>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                <div class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="headingOne">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                用户菜单
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                        <ul class="list-group">
+                            <a href="javascript:void(0);" data-addtab="userMenu1" url="/admin/message" class="list-group-item">用户菜单 1</a>
+                            <a href="javascript:void(0);" data-addtab="userMenu2" url="/admin/message" class="list-group-item">用户菜单 2</a>
+                            <a href="javascript:void(0);" data-addtab="userMenu3" url="/admin/message" class="list-group-item">用户菜单 3</a>
+                            <a href="javascript:void(0);" data-addtab="userMenu4" url="/admin/message" class="list-group-item">用户菜单 4</a>
+                            <a href="javascript:void(0);" data-addtab="userMenu5" url="http://sina.com.cn" class="list-group-item">新浪</a>
+                            <a href="javascript:void(0);" data-addtab="userMenu6" url="http://baidu.com" class="list-group-item">百度</a>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="main">
+                <div id="tabs">
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li role="presentation" class="active">
+                            <a href="#home" aria-controls="home" role="tab" data-toggle="tab">Home</a></li>
+                    </ul>
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane active" id="home">
+                            <button type="button" class="btn btn-default" addtabs="save" id="save" url="/admin/save">
+                                <i class="glyphicon glyphicon-floppy-disk"></i>
+                                SAVE
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
