@@ -2,6 +2,7 @@
 如果有意见或建议请到[Issues](https://git.oschina.net/hbbcs/bootStrap-addTabs/issues)中发表。
 
 #UPDATE
+- 2017/02/15 规范代码
 - 2017/02/09 更改右键菜单，增加右键菜单local设置
 - 2016/12/16 修正点击按钮/链接会刷新已打开TAB
 - 2016/10/13 新增TAB右键菜单，取消右键关闭，注：不希望关闭的tab，不要设置ID

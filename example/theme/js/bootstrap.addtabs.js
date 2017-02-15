@@ -13,7 +13,7 @@ $.fn.addtabs = function (options) {
         close: true, //是否可以关闭
         monitor: 'body', //监视的区域
         iframeUse: true, //使用iframe还是ajax
-        iframeHeight: $(document).height() - 107, //固定TAB中IFRAME高度,根据需要自己修改
+        iframeHeight: $(document).height() - 607, //固定TAB中IFRAME高度,根据需要自己修改
         contextmenu: true,//是否使用右键菜单
         obj: $(this),
         local:{
@@ -30,11 +30,11 @@ $.fn.addtabs = function (options) {
 
     $(Addtabs.options.monitor).on('click', '[data-addtab]', function () {
         Addtabs.add({
-            id: $(this).attr('data-addtab'),
-            title: $(this).attr('title') ? $(this).attr('title') : $(this).html(),
-            content: Addtabs.options.content ? Addtabs.options.content : $(this).attr('content'),
-            url: $(this).attr('url'),
-            ajax: $(this).attr('ajax') ? true : false
+            id: $(this).data('addtab'),
+            title: $(this).data('title') ? $(this).data('title') : $(this).html(),
+            content: Addtabs.options.content ? Addtabs.options.content : $(this).data('content'),
+            url: $(this).data('url'),
+            ajax: $(this).data('ajax') ? true : false
         });
     });
 
@@ -122,8 +122,8 @@ window.Addtabs = {
     options: {},
     add: function (opts) {
         var id = 'tab_' + opts.id;
-        $('li[role = "presentation"].active').removeClass('active');
-        $('div[role = "tabpanel"].active').removeClass('active');
+        Addtabs.options.obj.find('li[role = "presentation"].active').removeClass('active');
+        Addtabs.options.obj.find('div[role = "tabpanel"].active').removeClass('active');
         //如果TAB不存在，创建一个新的TAB
         if (!$("#" + id).length) {
             //创建新TAB的title
