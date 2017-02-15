@@ -8,24 +8,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 
-    <title>ADBC</title>
+    <title>Bootstrap addtabs</title>
 
     <link rel="stylesheet" href="theme/css/bootstrap.min.css" type="text/css" media="screen"/>
-    <link rel="stylesheet" href="theme/css/bootstrap.addtabs.css" type="text/css" media="screen"/>
+    <link rel="stylesheet" href="../bootstrap.addtabs.css" type="text/css" media="screen"/>
 
     <script src="theme/js/jquery.min.js"></script>
     <script src="theme/js/bootstrap.min.js"></script>
-    <script src="theme/js/bootstrap.addtabs.js"></script>
-
-    <!--[if lt IE 9]>
-    <script src="theme/js/html5shiv.min.js"></script>
-    <script src="theme/js/respond.min.js"></script>
-    <![endif]-->
+    <script src="../bootstrap.addtabs.js"></script>
 
 
     <script type="text/javascript">
         $(function () {
-            $('#tabs').addtabs({iframeHeight: 150});
+            $('#tabs').addtabs({iframeHeight: 320});
         })
     </script>
 </head>
@@ -64,30 +59,49 @@
 
             <div class="panel panel-default">
                 <div class="panel-body">
-                    <div class="btn-group">
-                        <button class="btn btn-default" data-addtab="mail" data-url="./ajax/mailbox.txt">mailbox</button>
-                        <button class="btn btn-default" data-addtab="mail1" data-url="./ajax/mailbox.txt" data-ajax="true">Use Ajax</button>
-                        <button type="button" class="btn btn-default" data-addtab="message" data-url="./ajax/mailbox.txt" data-content="Customize the content">
-                            <i class="glyphicon glyphicon-bullhorn"></i>指定内容
-                        </button>
-                        <button type="button" class="btn btn-default" data-addtab="setting" data-url="./ajax/mailbox.txt" data-title="Customize the title">
-                            <i class="glyphicon glyphicon-cog"></i>指定标题
-                        </button>
-                    </div>
-                    <p>&nbsp;</p>
-
-                    <div id="tabs">
-                        <!-- Nav tabs -->
-                        <ul class="nav nav-tabs" role="tablist">
-                            <li role="presentation" class="active">
-                                <a href="#home" aria-controls="home" role="tab" data-toggle="tab">Home</a></li>
-                        </ul>
-
-                        <!-- Tab panes -->
-                        <div class="tab-content">
-                            <div role="tabpanel" class="tab-pane active" id="home">I'm a homepage.</div>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <ul class="list-group">
+                                <a class="list-group-item" data-addtab="mail" data-url="./ajax/mailbox.txt">mailbox</a>
+                                <a class="list-group-item" data-addtab="mail1" data-url="./ajax/mailbox.txt" data-ajax="true">Use Ajax</a>
+                                <a class="list-group-item" data-addtab="message" data-url="./ajax/mailbox.txt" data-content="Customize the content">
+                                    <i class="glyphicon glyphicon-bullhorn"></i>指定内容
+                                </a>
+                                <a class="list-group-item" data-addtab="setting" data-url="./ajax/mailbox.txt" data-title="Customize the title">
+                                    <i class="glyphicon glyphicon-cog"></i>指定标题
+                                </a>
+                                <a class="list-group-item" data-addtab="userMenu1" data-url="./ajax/mailbox.txt">
+                                    用户菜单1
+                                </a>
+                                <a class="list-group-item" data-addtab="userMenu2" data-url="./ajax/mailbox.txt">
+                                    用户菜单2
+                                </a>
+                                <a class="list-group-item" data-addtab="sina" data-url="http://sina.com.cn">
+                                    新浪
+                                </a>
+                                <a class="list-group-item" data-addtab="baidu" data-url="http://baidu.com">
+                                    百度
+                                </a>
+                                <a class="list-group-item" onclick="Addtabs.closeAll();">
+                                    关闭所有
+                                </a>
+                            </ul>
                         </div>
+                        <div class="col-sm-9">
+                            <div id="tabs">
+                                <!-- Nav tabs -->
+                                <ul class="nav nav-tabs" role="tablist">
+                                    <li role="presentation" class="active">
+                                        <a href="#home" aria-controls="home" role="tab" data-toggle="tab">Home</a></li>
+                                </ul>
 
+                                <!-- Tab panes -->
+                                <div class="tab-content">
+                                    <div role="tabpanel" class="tab-pane active" id="home">I'm a homepage.</div>
+                                </div>
+
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

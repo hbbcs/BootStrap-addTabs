@@ -3,7 +3,7 @@
  *
  * Version : 1.6
  *
- * Created by joe on 2016-2-4.Update 2017-02-09
+ * Created by joe on 2016-2-4.Update 2017-02-15
  */
 
 $.fn.addtabs = function (options) {
@@ -30,11 +30,11 @@ $.fn.addtabs = function (options) {
 
     $(Addtabs.options.monitor).on('click', '[data-addtab]', function () {
         Addtabs.add({
-            id: $(this).attr('data-addtab'),
-            title: $(this).attr('title') ? $(this).attr('title') : $(this).html(),
-            content: Addtabs.options.content ? Addtabs.options.content : $(this).attr('content'),
-            url: $(this).attr('url'),
-            ajax: $(this).attr('ajax') ? true : false
+            id: $(this).data('addtab'),
+            title: $(this).data('title') ? $(this).data('title') : $(this).html(),
+            content: Addtabs.options.content ? Addtabs.options.content : $(this).data('content'),
+            url: $(this).data('url'),
+            ajax: $(this).data('ajax') ? true : false
         });
     });
 
@@ -122,8 +122,8 @@ window.Addtabs = {
     options: {},
     add: function (opts) {
         var id = 'tab_' + opts.id;
-        $('li[role = "presentation"].active').removeClass('active');
-        $('div[role = "tabpanel"].active').removeClass('active');
+        Addtabs.options.obj.find('li[role = "presentation"].active').removeClass('active');
+        Addtabs.options.obj.find('div[role = "tabpanel"].active').removeClass('active');
         //如果TAB不存在，创建一个新的TAB
         if (!$("#" + id).length) {
             //创建新TAB的title
@@ -208,8 +208,8 @@ window.Addtabs = {
             left + right
         );
         popHtml.css({
-            'top': e[0].offsetHeight - 10 + 'px',
-            'left': e[0].offsetLeft + 50 + 'px'
+            'top': e[0].offsetTop+10,
+            'left':e[0].offsetLeft+60
         });
         popHtml.appendTo(Addtabs.options.obj).fadeIn('slow');
         popHtml.mouseleave(function () {
@@ -232,13 +232,13 @@ window.Addtabs = {
         Addtabs.options.callback();
     },
     closeAll: function () {
-        $.each(obj.find('li[id]'), function () {
+        $.each(Addtabs.options.obj.find('li[id]'), function () {
             var id = $(this).children('a').attr('aria-controls');
             $("#tab_" + id).remove();
             $("#" + id).remove();
         });
         Addtabs.options.obj.find('li[role = "presentation"]').first().addClass('active');
-        var firstID = obj.find('li[role = "presentation"]').first().children('a').attr('aria-controls');
+        var firstID = Addtabs.options.obj.find('li[role = "presentation"]').first().children('a').attr('aria-controls');
         $('#' + firstID).addClass('active');
         Addtabs.drop();
     },
