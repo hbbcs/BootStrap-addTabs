@@ -1,7 +1,7 @@
 /**
  * Website: http://git.oschina.net/hbbcs/bootStrap-addTabs
  *
- * Version : 1.6
+ * Version : 1.7
  *
  * Created by joe on 2016-2-4.Update 2017-02-15
  */
@@ -16,7 +16,7 @@ $.fn.addtabs = function (options) {
         iframeHeight: $(document).height() - 107, //固定TAB中IFRAME高度,根据需要自己修改
         contextmenu: true,//是否使用右键菜单
         obj: $(this),
-        local:{
+        local: {
             'refreshLabel': '刷新此标签',
             'closeThisLabel': '关闭此标签',
             'closeOtherLabel': '关闭其他标签',
@@ -103,13 +103,33 @@ $.fn.addtabs = function (options) {
         });
     }
 
-    Addtabs.options.obj.on('mouseover', 'li[role = "presentation"]', function () {
-        $(this).find('.close-tab').show();
+    //拖动
+    var el;
+    Addtabs.options.obj.on('dragstart.h5s', 'li', function (e) {
+        el = $(this);
+        $('<li>', {
+            'id': 'dragTemp'
+        }).insertBefore(el)
+    }).on('dragover.h5s dragenter.h5s drop.h5s', 'li', function (e) {
+        if (el == $(this)) return;
+        $('.dragBack').removeClass('dragBack');
+        $(this).addClass('dragBack');
+        $('#dragTemp').insertAfter($(this))
+    }).on('dragend.h5s', 'li', function () {
+        el.insertBefore($('#dragTemp'));
+        $('.dragBack').removeClass('dragBack');
+        $('#dragTemp').remove();
     });
 
-    Addtabs.options.obj.on('mouseleave', 'li[role = "presentation"]', function () {
-        $(this).find('.close-tab').hide();
-    });
+    if (Addtabs.options.close) {
+        Addtabs.options.obj.on('mouseover', 'li[role = "presentation"]', function () {
+            $(this).find('.close-tab').show();
+        });
+
+        Addtabs.options.obj.on('mouseleave', 'li[role = "presentation"]', function () {
+            $(this).find('.close-tab').hide();
+        });
+    }
 
     $(window).resize(function () {
         Addtabs.options.obj.find('iframe').attr('height', Addtabs.options.iframeHeight);
@@ -130,8 +150,7 @@ window.Addtabs = {
             var title = $('<li>', {
                 'role': 'presentation',
                 'id': 'tab_' + id,
-                'aria-url': opts.url,
-                'draggable': true
+                'aria-url': opts.url
             }).append(
                 $('<a>', {
                     'href': '#' + id,
@@ -191,31 +210,40 @@ window.Addtabs = {
         $('#' + id).addClass('active');
         Addtabs.drop();
     },
+    createMenu: function (right, icon, text) {
+        return $('<a>', {
+            'href': 'javascript:void(0);',
+            'class': "list-group-item",
+            'data-right': right
+        }).append(
+            $('<i>', {'class': 'glyphicon ' + icon})
+        ).append(text);
+    },
     pop: function (id, e) {
         $('body').find('#popMenu').remove();
-        var refresh = e.attr('id') ? '<a href="javascript:void(0);" class="list-group-item" data-right="refresh"><i class="glyphicon glyphicon-refresh"></i> '+Addtabs.options.local.refreshLabel+'</a>'
-        + '<a href="javascript:void(0);" class="list-group-item" data-right="remove"><i class="glyphicon glyphicon-remove"></i> '+Addtabs.options.local.closeThisLabel+'</a>' : '';
-        var left = e.prev('li').attr('id') ? '<a href="javascript:void(0);" class="list-group-item" data-right="remove-left"><i class="glyphicon glyphicon-chevron-left"></i> '+Addtabs.options.local.closeLeftLabel+'</a>' : '';
-        var right = e.next('li').attr('id') ? '<a href="javascript:void(0);" class="list-group-item" data-right="remove-right"><i class="glyphicon glyphicon-chevron-right"></i> '+Addtabs.options.local.closeRightLabel+'</a>' : '';
+        var refresh = e.attr('id') ? Addtabs.createMenu('refresh', 'glyphicon-refresh', Addtabs.options.local.refreshLabel) : '';
+        var remove = e.attr('id') ? Addtabs.createMenu('remove', 'glyphicon-remove', Addtabs.options.local.closeThisLabel) : '';
+        var left = e.prev('li').attr('id') ? Addtabs.createMenu('remove-left', 'glyphicon-chevron-left', Addtabs.options.local.closeLeftLabel) : '';
+        var right = e.next('li').attr('id') ? Addtabs.createMenu('remove-right', 'glyphicon-chevron-right', Addtabs.options.local.closeRightLabel) : '';
         var popHtml = $('<ul>', {
             'aria-controls': id,
             'class': 'rightMenu list-group',
             id: 'popMenu',
             'aria-url': e.attr('aria-url')
-        }).append(
-            refresh +
-            '<a href="javascript:void(0);" class="list-group-item" data-right="remove-circle"><i class="glyphicon glyphicon-remove-circle"></i> '+Addtabs.options.local.closeOtherLabel+'</a>' +
-            left + right
-        );
+        }).append(refresh)
+            .append(remove)
+            .append(Addtabs.createMenu('remove-circle', 'glyphicon-remove-circle', Addtabs.options.local.closeOtherLabel))
+            .append(left)
+            .append(right);
         popHtml.css({
-            'top': e[0].offsetTop+10,
-            'left':e[0].offsetLeft+60
+            'top': e[0].offsetTop + 10,
+            'left': e[0].offsetLeft + 60
         });
         popHtml.appendTo(Addtabs.options.obj).fadeIn('slow');
         popHtml.mouseleave(function () {
             $(this).fadeOut('slow');
         });
-        $('body').click(function() {
+        $('body').click(function () {
             popHtml.fadeOut('slow');
         })
     },

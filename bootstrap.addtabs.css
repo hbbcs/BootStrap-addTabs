@@ -42,3 +42,7 @@
     z-index: 99;
     display: none;
 }
+
+.dragBack {
+    background-color: #ddd;
+}
