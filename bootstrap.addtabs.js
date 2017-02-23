@@ -145,7 +145,7 @@ window.Addtabs = {
         Addtabs.options.obj.find('li[role = "presentation"].active').removeClass('active');
         Addtabs.options.obj.find('div[role = "tabpanel"].active').removeClass('active');
         //如果TAB不存在，创建一个新的TAB
-        if (!$("#" + id).length) {
+        if (Addtabs.options.obj.find("#" + id).length<=0) {
             //创建新TAB的title
             var title = $('<li>', {
                 'role': 'presentation',
