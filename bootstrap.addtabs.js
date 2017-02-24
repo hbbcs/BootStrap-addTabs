@@ -107,18 +107,13 @@ $.fn.addtabs = function (options) {
     var el;
     Addtabs.options.obj.on('dragstart.h5s', 'li', function (e) {
         el = $(this);
-        $('<li>', {
-            'id': 'dragTemp'
-        }).insertBefore(el)
     }).on('dragover.h5s dragenter.h5s drop.h5s', 'li', function (e) {
         if (el == $(this)) return;
         $('.dragBack').removeClass('dragBack');
         $(this).addClass('dragBack');
-        $('#dragTemp').insertAfter($(this))
+        el.insertAfter($(this))
     }).on('dragend.h5s', 'li', function () {
-        el.insertBefore($('#dragTemp'));
         $('.dragBack').removeClass('dragBack');
-        $('#dragTemp').remove();
     });
 
     if (Addtabs.options.close) {
