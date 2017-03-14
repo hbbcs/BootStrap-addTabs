@@ -32,7 +32,7 @@ STEP 2、设置按钮或链接
     用户菜单1
 </a>
 ```
-或
+或使用标准的json
 ```
 <a class="list-group-item" data-addtab='{"url": "./example/ajax/button.html","target": "#tabs1"}'>
     用户菜单2
