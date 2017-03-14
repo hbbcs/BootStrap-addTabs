@@ -34,9 +34,20 @@ STEP 2、设置按钮或链接
 ```
 或使用标准的json
 ```
-<a class="list-group-item" data-addtab='{"url": "./example/ajax/button.html","target": "#tabs1"}'>
+<a class="list-group-item" data-addtab='{"id":"mail","url": "./example/ajax/button.html","target": "#tabs1"}'>
     用户菜单2
 </a>
+```
+json可用参数
+```
+{
+    "id": 'string',
+    "target": "string|object",
+    "title": "string",
+    "content": "string", //设置content,url将不起作用
+    "url": "string",
+    "ajax": "true|false"
+}
 ```
 至此就可以使用此插件。
 
