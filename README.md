@@ -5,6 +5,7 @@
 [Demo Url](http://hbbcs.oschina.io/bootstrap-addtabs/)
 
 #UPDATE
+- 2017/03/14 更新版本到2.0
 - 2017/02/23 增加拖动，支持HTML5的浏览器可用
 - 2017/02/15 规范代码，修正BUG
 - 2017/02/09 更改右键菜单，增加右键菜单local设置
@@ -20,34 +21,53 @@
 - 最近在做一个前端，需要点击按钮创建一个可关闭的标签页，没有找到合适的，最后想到不如改造一下bootstrap省事。
 
 #Usage
-
-具体请查看[index.html](http://git.oschina.net/hbbcs/bootStrap-addTabs/blob/master/index.html)文件
+STEP 1、引入文件
 ```
-$('#tabs').addtabs({monitor:'.btn-group'});
+<link rel="stylesheet" href="./bootstrap.addtabs.css" type="text/css" media="screen" />
+<script type="text/javascript" src="./bootstrap.addtabs.js"></script>
 ```
-以下两种子窗口操作方式，是在子窗口不加载bootstrap-addtabs的环境下。
-
-iframe子窗口调用父窗口中的按钮
+STEP 2、设置按钮或链接
 ```
-$(function() {
-    var message_btn = parent.$(window.parent.document).find("a[data-addtab=message]");//触发父窗口按钮
-    message_btn.trigger("click");
+<a class="list-group-item" data-addtab="userMenu1" data-target="#tabs2" data-url="./example/ajax/mailbox.txt">
+    用户菜单1
+</a>
+```
+或
+```
+<a class="list-group-item" data-addtab='{"url": "./example/ajax/button.html","target": "#tabs1"}'>
+    用户菜单2
+</a>
+```
+关闭所有增加的TAB
+```
+$('#closeAll1').click(function () {
+    $.addtabs.closeAll('#tabs1');
+})
+```
+子窗口不加载bootstrap-addtabs的环境下，在父窗口增加TAB。
+```
+$('#testbutton').click(function() {
+    window.parent.window.$.addtabs.add({
+        target: "#tabs1",
+        url: "example/ajax/mailbox.txt",
+        title: "test"
+    });
 })
 ```
 iframe子窗口关闭父窗口的TABS
 ```
 $(function() {
-    $(window.parent.document).find('#tab_tab_message').remove();
-    $(window.parent.document).find('#tab_message').remove();
+    window.parent.window.$.addtabs.close('#tab_message');
 })
 ```
 
 ##参数
 ```
+target       string|object 增加TAB的目标
 content      string|html   直接指定内容
 close        bool          是否可以关闭，默认是true
 monitor      string        监视的区域,默认是body
-iframeUse    bool          使用iframe，false使用ajax,默认true
+iframe       bool          使用iframe，false使用ajax,默认true
 iframeHeight num           固定TAB中IFRAME高度
 callback     function(){}  关闭后回调函数
 contextmenu  bool          是否启用右键菜单，默认true
