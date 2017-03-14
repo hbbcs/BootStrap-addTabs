@@ -1,6 +1,9 @@
 #评论关闭
 如果有意见或建议请到[Issues](https://git.oschina.net/hbbcs/bootStrap-addTabs/issues)中发表。
 
+#Demo
+[Demo Url](http://hbbcs.oschina.io/bootstrap-addtabs/)
+
 #UPDATE
 - 2017/02/23 增加拖动，支持HTML5的浏览器可用
 - 2017/02/15 规范代码，修正BUG
@@ -16,7 +19,7 @@
 - 11月增加了折叠TABS的代码，防止打开过多影响页面
 - 最近在做一个前端，需要点击按钮创建一个可关闭的标签页，没有找到合适的，最后想到不如改造一下bootstrap省事。
 
-#使用方法
+#Usage
 
 具体请查看[index.html](http://git.oschina.net/hbbcs/bootStrap-addTabs/blob/master/index.html)文件
 ```
