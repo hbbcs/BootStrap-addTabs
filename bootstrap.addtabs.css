@@ -1,4 +1,4 @@
-/* 
+/*
     Created on : 2015-8-11, 16:18:09
     Author     : joe
 */
@@ -13,7 +13,6 @@
     cursor: hand;
     cursor: pointer;
     color: #94A6B0;
-    display: none;
 }
 
 .nav-tabs {position: relative;}
