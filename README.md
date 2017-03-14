@@ -51,6 +51,7 @@ json可用参数
 ```
 至此就可以使用此插件。
 
+
 关闭所有增加的TAB
 ```
 $('#closeAll1').click(function () {
@@ -91,4 +92,16 @@ local:{
     'closeLeftLabel': '关闭左侧标签',
     'closeRightLabel': '关闭右侧标签'
 }
+```
+设置方法
+```
+$.addtabs({"target":"#tabs1",...})
+```
+或
+```
+$.addtabs.set({"target":"#tabs1"});
+```
+或
+```
+$.addtabs.set("target","#tabs1");
 ```
