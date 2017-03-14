@@ -63,7 +63,7 @@ $(function() {
 
 ##参数
 ```
-target       string|object 增加TAB的目标
+target       string|object 同一页面如果存在多个nav-tabs，可以使用此参数设定增加TAB的目标
 content      string|html   直接指定内容
 close        bool          是否可以关闭，默认是true
 monitor      string        监视的区域,默认是body
