@@ -3,6 +3,8 @@
  *
  * Version : 2.0
  *
+ * Mail: hbbcs@sina.com
+ * 
  * Created by joe on 2016-2-4.Update 2017-03-14
  */
 
