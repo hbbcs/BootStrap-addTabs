@@ -6,7 +6,6 @@
  * Created by joe on 2016-2-4.Update 2017-03-14
  */
 
-
 (function ($) {
 
     var settings = {
@@ -86,7 +85,7 @@
         });
         popHtml.appendTo($('body')).fadeIn('slow');
         //刷新页面
-        $('body').on('click', 'ul.rightMenu a[data-right=refresh]', function () {
+        $('ul.rightMenu a[data-right=refresh]').on('click', function () {
             var id = $(this).parent('ul').attr("aria-controls").substring(4);
             var url = $(this).parent('ul').attr('aria-url');
             var ajax = $(this).parent('ul').attr('aria-ajax');
@@ -99,7 +98,7 @@
         });
 
         //关闭自身
-        $('body').on('click', 'ul.rightMenu a[data-right=remove]', function () {
+        $('ul.rightMenu a[data-right=remove]').on('click', function () {
             var id = $(this).parent("ul").attr("aria-controls");
             if (id.substring(0, 4) != 'tab_') return;
             $.addtabs.close({
@@ -109,7 +108,7 @@
         });
 
         //关闭其他
-        $('body').on('click', 'ul.rightMenu a[data-right=remove-circle]', function () {
+        $('ul.rightMenu a[data-right=remove-circle]').on('click', function () {
             var tab_id = $(this).parent('ul').attr("aria-controls");
             target.find('li').each(function () {
                 var id = $(this).attr('id');
@@ -123,7 +122,7 @@
         });
 
         //关闭左侧
-        $('body').on('click', 'ul.rightMenu a[data-right=remove-left]', function () {
+        $('ul.rightMenu a[data-right=remove-left]').on('click', function () {
             var tab_id = $(this).parent('ul').attr("aria-controls");
             $('#tab_' + tab_id).prevUntil().each(function () {
                 var id = $(this).attr('id');
@@ -137,7 +136,7 @@
         });
 
         //关闭右侧
-        $('body').on('click', 'ul.rightMenu a[data-right=remove-right]', function () {
+        $('ul.rightMenu a[data-right=remove-right]').on('click', function () {
 
             var tab_id = $(this).parent('ul').attr("aria-controls");
             $('#tab_' + tab_id).nextUntil().each(function () {
@@ -280,7 +279,7 @@
         //是否指定TAB内容
         if (opts.content) {
             content.append(opts.content);
-        } else if (settings.iframe==true && (opts.ajax=='false' || !opts.ajax)) { //没有内容，使用IFRAME打开链接
+        } else if (settings.iframe == true && (opts.ajax == 'false' || !opts.ajax)) { //没有内容，使用IFRAME打开链接
             content.append(
                 $('<iframe>', {
                     'class': 'iframeClass',
