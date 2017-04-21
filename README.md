@@ -5,6 +5,7 @@
 [Demo Url](http://hbbcs.oschina.io/bootstrap-addtabs/)
 
 #UPDATE
+- 2017/04/21 修正更新方式按链接是否使用ajax
 - 2017/03/14 更新版本到2.0
 - 2017/02/23 增加拖动，支持HTML5的浏览器可用
 - 2017/02/15 规范代码，修正BUG
