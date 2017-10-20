@@ -1,10 +1,13 @@
-#评论关闭
+ **评论关闭** 
 如果有意见或建议请到[Issues](https://git.oschina.net/hbbcs/bootStrap-addTabs/issues)中发表。
 
-#Demo
+ **Demo** 
 [Demo Url](http://hbbcs.oschina.io/bootstrap-addtabs/)
 
-#UPDATE
+ **UPDATE** 
+- **2017/10/14 刷新页面保持tabs状态，需要jquery.cookie支持，$.addtabs.set('cookie','true')**
+- **2017/08/22 改变ajax方式，增加ajax参数调用**
+- **2017/08/21 增加加载条，$.addtabs.set("loadbar",false)关闭** 
 - 2017/04/21 修正更新方式按链接是否使用ajax，修正重复刷新BUG
 - 2017/03/14 更新版本到2.0
 - 2017/02/23 增加拖动，支持HTML5的浏览器可用
@@ -39,15 +42,21 @@ STEP 2、设置按钮或链接
     用户菜单2
 </a>
 ```
+ajax调用方式
+```
+<a class="list-group-item" data-addtab="mail1"  data-ajax='{"async":false}'  data-url="example/ajax/mailbox.txt">
+    Use Ajax
+</a>
+```
 json可用参数
 ```
 {
-    "id": 'string',
-    "target": "string|object",
-    "title": "string",
-    "content": "string", //设置content,url将不起作用
-    "url": "string",
-    "ajax": "true|false"
+    "id": string,
+    "target": string|object,
+    "title": string,
+    "content": string, //设置content,url将不起作用
+    "url": string,
+    "ajax": json
 }
 ```
 至此就可以使用此插件。
@@ -75,8 +84,7 @@ $(function() {
     window.parent.window.$.addtabs.close('#tab_message');
 })
 ```
-
-##参数
+**参数**
 ```
 target       string|object 同一页面如果存在多个nav-tabs，可以使用此参数设定增加TAB的目标
 content      string|html   直接指定内容
@@ -86,12 +94,16 @@ iframe       bool          使用iframe，false使用ajax,默认true
 iframeHeight num           固定TAB中IFRAME高度
 callback     function(){}  关闭后回调函数
 contextmenu  bool          是否启用右键菜单，默认true
+loadbar      bool          是否显示加载条，默认是true
+cookie       bool          将打开的tab页记录到cookie中，刷新页面时自动打开，默认不使用
+ajax         object        全局调用ajax的默认参数
 local:{
     'refreshLabel': '刷新此标签',
     'closeThisLabel': '关闭此标签',
     'closeOtherLabel': '关闭其他标签',
     'closeLeftLabel': '关闭左侧标签',
-    'closeRightLabel': '关闭右侧标签'
+    'closeRightLabel': '关闭右侧标签'，
+    'loadbar': '正在加载内容，请稍候．．．'
 }
 ```
 设置方法
